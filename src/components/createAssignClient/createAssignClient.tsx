@@ -6,6 +6,8 @@ import countryList from "react-select-country-list";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Link from "next/link";
+import logo from "../../assets/logo.png"
+
 
 const categories = [
   {
@@ -309,8 +311,28 @@ const CreateAssignClient = () => {
   //   doc.save("user_info_report.pdf");
   // };
 
+const loadImage = (): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      } else {
+        reject(new Error('Could not create canvas context'));
+      }
+    };
+    img.onerror = (error) => reject(error);
+    img.src = "/logo.png";
+  });
+};
 
-const generatePDF = (formData: Record<string, any>) => {
+
+const generatePDF = async(formData: Record<string, any>) => {
   const doc = new jsPDF({
     orientation: "portrait",
     unit: "mm",
@@ -322,16 +344,44 @@ const generatePDF = (formData: Record<string, any>) => {
   doc.setFontSize(10);
 
   // ===== Page 1 =====
-  
-   // 1. UK Visas (Bold, Size 12)
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.text("UK Visas", 15, 15);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(12);
-  doc.text("& Immigration", 15, 20);
+  // image here
+    // const pageWidth = doc.internal.pageSize.getWidth();
+  const leftMargin = 15;
+  const topMargin = 10;
+    // ===== ADD LOGO =====
+// Left border (full page height)
+  doc.setDrawColor(0, 0, 255); // Blue color
+  doc.setLineWidth(0.6);
+  doc.line(leftMargin, 5, leftMargin, 30);
 
+  // ===== HEADER WITH LOGO =====
+  try {
+    // Add logo image
+    const logoWidth = 7;
+    const logoHeight = 8;
+    const logoX = leftMargin+1;
+    const logoY = topMargin;
+    
+    const imgData = await loadImage();
+    doc.addImage(imgData, 'PNG', logoX, logoY, logoWidth, logoHeight);
+    
+    // Header text positioning
+    const textStartY = logoY + logoHeight + 5;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("UK Visas", leftMargin+1, textStartY+1);
+    doc.setFontSize(12);
+    doc.text("& Immigration", leftMargin, textStartY + 5);
 
+  } catch (error) {
+    console.error("Error loading logo:", error);
+    // Fallback header without logo
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text("UK Visas", leftMargin, topMargin);
+    doc.setFontSize(12);
+    doc.text("& Immigration", leftMargin, topMargin + 5);
+  }
 
 // ===== EXACT CERTIFICATE SECTION REPLICATION =====
   doc.setFont("helvetica", "bold");
