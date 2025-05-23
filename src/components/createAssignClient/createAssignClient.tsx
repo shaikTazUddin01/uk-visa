@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useMemo, useState } from "react";
@@ -282,32 +283,322 @@ const CreateAssignClient = () => {
       .trim();
   };
 
-  const generatePDF = (formData: Record<string, any>) => {
-    const doc = new jsPDF();
+  // const generatePDF = (formData: Record<string, any>) => {
+  //   const doc = new jsPDF();
 
-    // Title
-    doc.text("User Information Report", 14, 15);
+  //   // Title
+  //   doc.text("User Information Report", 14, 15);
 
-    // Define table columns
-    const tableColumn = ["Information Categories", "Users Information"];
-    const tableRows: (string | number)[][] = [];
+  //   // Define table columns
+  //   const tableColumn = ["Information Categories", "Users Information"];
+  //   const tableRows: (string | number)[][] = [];
 
-    // Convert formData into table rows with formatted labels
-    Object.entries(formData).forEach(([key, value]) => {
-      tableRows.push([formatLabel(key), value !== "" ? String(value) : "N/A"]);
-    });
+  //   // Convert formData into table rows with formatted labels
+  //   Object.entries(formData).forEach(([key, value]) => {
+  //     tableRows.push([formatLabel(key), value !== "" ? String(value) : "N/A"]);
+  //   });
 
-    // Add table to PDF
-    autoTable(doc, {
-      head: [tableColumn],
-      body: tableRows,
-      startY: 20,
-    });
+  //   // Add table to PDF
+  //   autoTable(doc, {
+  //     head: [tableColumn],
+  //     body: tableRows,
+  //     startY: 20,
+  //   });
 
-    // Save the PDF
-    doc.save("user_info_report.pdf");
-  };
+  //   // Save the PDF
+  //   doc.save("user_info_report.pdf");
+  // };
 
+
+const generatePDF = (formData: Record<string, any>) => {
+  const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4"
+  });
+
+  // Set default font
+  doc.setFont("helvetica");
+  doc.setFontSize(10);
+
+  // ===== Page 1 =====
+  
+   // 1. UK Visas (Bold, Size 12)
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text("UK Visas", 15, 15);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("& Immigration", 15, 20);
+
+
+
+// ===== EXACT CERTIFICATE SECTION REPLICATION =====
+  doc.setFont("helvetica", "bold");
+  
+  // 1. Set the exact font size (11pt)
+  doc.setFontSize(11);
+  
+  // 2. Position the text exactly (15mm from left, 30mm from top)
+  const certText = "Certificate of Sponsorship Details";
+  doc.text(certText, 18, 31);
+
+  // 3. Calculate the perfect border dimensions
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const borderLeft = 15; // Matches text left position
+  const borderRight = pageWidth - 15; // Symmetrical right margin
+  const borderTop = 25; // 5mm above text
+  const borderBottom = 35; // 5mm below text
+
+  // 4. Draw the exact borders shown in screenshot
+  // Left border (blue)
+  doc.setDrawColor(144, 144, 144); // light black
+  doc.setLineWidth(0.3);
+  doc.line(borderLeft, borderTop, borderLeft, borderBottom);
+  
+  // Right border (blue)
+  doc.line(borderRight, borderTop, borderRight, borderBottom);
+  
+  // Top border (red)
+  doc.setDrawColor(221, 221, 221); // Pure red
+  doc.line(borderLeft, borderTop, borderRight, borderTop);
+  
+  // Bottom border (red)
+  doc.line(borderLeft, borderBottom, borderRight, borderBottom);
+
+
+
+
+  // Tier and Category (double label as in original)
+  doc.text("Tier and Category:", 15, 40);
+  doc.text("Tier and Category: Skilled Worker (New hires - defined)", 50, 40);
+
+  // Certificate of sponsorship status section
+  doc.text("Certificate of sponsorship status", 15, 50);
+  
+  const statusData = [
+    { label: "Sponsor licence number:", value: "T83VF90R4", x: 20, y: 55 },
+    { label: "Sponsor name:", value: "DIAL ONE SERVICES LTD", x: 20, y: 60 },
+    { label: "Certificate number:", value: "C2G8H88871U", x: 20, y: 65 },
+    { label: "Current certificate status:", value: "ASSIGNED", x: 20, y: 70 },
+    { label: "Current certificate status date:", value: "15 April 2025", x: 20, y: 75 },
+    { label: "Date assigned:", value: "15 April 2025", x: 20, y: 80 },
+    { label: "Expiry date (use by):", value: "16 July 2025", x: 20, y: 85 },
+    { label: "Sponsorship withdrawn:", value: "N", x: 20, y: 90 },
+    { label: "Sponsor note:", value: "", x: 20, y: 95 },
+    { label: "Migrant application status:", value: "", x: 20, y: 100 }
+  ];
+
+  statusData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // Personal information section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Personal information", 15, 110);
+  doc.setFont("helvetica", 'normal');
+
+  const personalData = [
+    { label: "Family name:", value: "BEGUM", x: 20, y: 115 },
+    { label: "Given name(s):", value: "MST MUNNE", x: 20, y: 120 },
+    { label: "Other names:", value: "", x: 20, y: 125 },
+    { label: "Nationality:", value: "BANGLADESH", x: 20, y: 130 },
+    { label: "Place of birth:", value: "SYLHET", x: 20, y: 135 },
+    { label: "Country of birth:", value: "BANGLADESH", x: 20, y: 140 },
+    { label: "Date of birth:", value: "01/01/1993", x: 20, y: 145 },
+    { label: "Gender:", value: "Female", x: 20, y: 150 },
+    { label: "Country of residence:", value: "BANGLADESH", x: 20, y: 155 }
+  ];
+
+  personalData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // Passport section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Passport or travel document", 15, 165);
+  doc.setFont("helvetica", 'normal');
+
+  const passportData = [
+    { label: "Passport number:", value: "A15258777", x: 20, y: 170 },
+    { label: "Issue date:", value: "24 March 2024", x: 20, y: 175 },
+    { label: "Expiry date:", value: "23 March 2034", x: 20, y: 180 },
+    { label: "Place of issue of passport:", value: "DIP/DHAKA", x: 20, y: 185 }
+  ];
+
+  passportData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // Current home address section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Current home address", 15, 195);
+  doc.setFont("helvetica", 'normal');
+
+  const addressLines = [
+    { text: "Address: DAKSHIN KANISHAIL GOLAPGONJ", x: 20, y: 200 },
+    { text: "City or town: SYLHET", x: 20, y: 205 },
+    { text: "County, area district or province: DHAKA", x: 20, y: 210 },
+    { text: "Postcode: 3161", x: 20, y: 215 },
+    { text: "Country: BANGLADESH", x: 20, y: 220 }
+  ];
+
+  addressLines.forEach(line => {
+    doc.text(line.text, line.x, line.y);
+  });
+
+  // Identification numbers section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Identification numbers", 15, 230);
+  doc.setFont("helvetica", 'normal');
+
+  const idData = [
+    { label: "UK ID card number:", value: "", x: 20, y: 235 },
+    { label: "UK National Insurance number:", value: "", x: 20, y: 240 },
+    { label: "National ID card number:", value: "", x: 20, y: 245 },
+    { label: "Employee number:", value: "", x: 20, y: 250 }
+  ];
+
+  idData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // ===== Page 2 =====
+  doc.addPage();
+
+  // Work dates section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Work dates", 15, 20);
+  doc.setFont("helvetica", 'normal');
+
+  const workData = [
+    { label: "Start date:", value: "01 May 2025", x: 20, y: 25 },
+    { label: "End date:", value: "30 April 2026", x: 20, y: 30 },
+    { 
+      label: "Does the migrant need to leave and re-enter the UK during the period of approval?", 
+      value: "N", 
+      x: 20, 
+      y: 35 
+    },
+    { label: "Total weekly hours of work:", value: "37.50", x: 20, y: 40 }
+  ];
+
+  workData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // Main work address section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Main work address in the United Kingdom (mandatory for assignment):", 15, 50);
+  doc.setFont("helvetica", 'normal');
+
+  const workAddressLines = [
+    { text: "Address: 277A, DAMINI MALL", x: 20, y: 55 },
+    { text: "GREEN STREET", x: 60, y: 55 },
+    { text: "City or town: LONDON", x: 20, y: 60 },
+    { text: "County, area district or province:", x: 20, y: 65 },
+    { text: "Postcode: E7 8LJ", x: 20, y: 70 }
+  ];
+
+  workAddressLines.forEach(line => {
+    doc.text(line.text, line.x, line.y);
+  });
+
+  // Migrant's employment section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Migrant's employment", 15, 80);
+  doc.setFont("helvetica", 'normal');
+
+  const employmentData = [
+    { label: "Job title:", value: "Web Designer", x: 20, y: 85 },
+    { label: "Job type:", value: "2141 Web design professionals", x: 20, y: 90 },
+    { 
+      label: "Summary of job description:", 
+      value: "Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems implementing and maintaining high quality EC policies and incorporating them with web content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liasing with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.",
+      x: 20, 
+      y: 95 
+    },
+    { label: "New Entrant?", value: "N", x: 20, y: 125 },
+    { 
+      label: "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):", 
+      value: "21.18", 
+      x: 20, 
+      y: 130 
+    },
+    { label: "For each:", value: "Hour", x: 20, y: 135 },
+    { 
+      label: "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:", 
+      value: "Y", 
+      x: 20, 
+      y: 140 
+    },
+    { 
+      label: "Tick to certify maintenance for migrant (and dependants, if applicable):", 
+      value: "Y", 
+      x: 20, 
+      y: 145 
+    },
+    { 
+      label: "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?", 
+      value: "N", 
+      x: 20, 
+      y: 150 
+    }
+  ];
+
+  employmentData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    
+    // Handle multi-line text for job description
+    if (item.label === "Summary of job description:") {
+      const splitText = doc.splitTextToSize(item.value, 150);
+      let textY = item.y + 5;
+      splitText.forEach((line:any)=> {
+        doc.text(line, item.x + 5, textY);
+        textY += 5;
+      });
+    } else {
+      doc.text(item.value, item.x + 60, item.y);
+    }
+  });
+
+  // PAYE section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Migrant's employment - PAYE", 15, 160);
+  doc.setFont("helvetica", 'normal');
+
+  const payeData = [
+    { label: "PAYE reference supplied?", value: "Y", x: 20, y: 165 },
+    { label: "PAYE reference number:", value: "120/AE80662", x: 20, y: 170 }
+  ];
+
+  payeData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // PhD section
+  doc.setFont("helvetica", 'bold');
+  doc.text("Migrant's employment - PhD", 15, 180);
+  doc.setFont("helvetica", 'normal');
+
+  const phdData = [
+    { label: "Is PhD Level qualification required for post?", value: "N", x: 20, y: 185 }
+  ];
+
+  phdData.forEach(item => {
+    doc.text(item.label, item.x, item.y);
+    doc.text(item.value, item.x + 60, item.y);
+  });
+
+  // Save the PDF
+  doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
+};
   return (
     <div className="flex flex-col gap-4  text-[8px] md:text-xs">
       <div className=" text-[8px] md:text-xs">
