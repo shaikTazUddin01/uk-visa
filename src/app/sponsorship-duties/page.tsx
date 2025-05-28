@@ -18,12 +18,12 @@ const ViewsCOSPage = () => {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto text-[8px] md:text-xs">
-      <h1 className="text-[8px] md:text-lg text-blue-950 font-bold mt-3">
+    <div className="max-w-2xl mx-auto text-[6px] md:text-xs">
+      <h1 className="text-[6px] md:text-lg text-blue-950 font-bold mt-3">
         Sponsorship duties
       </h1>
 
-      <p className="mt-1 mb-3 text-[8px] md:text-xs">
+      <p className="mt-1 mb-3 text-[6px] md:text-xs">
         As a sponsor, you have responsibilities to manage the migrants to whom
         you have assigned CoS. This section allows you to fulfil these
         responsibilities by reporting migrant activity and managing live CoS.
@@ -33,14 +33,14 @@ const ViewsCOSPage = () => {
       </p>
 
       {informations?.map((info, index) => (
-        <section key={index} className="mb-1 text-[8px] md:text-xs">
+        <section key={index} className="mb-1 text-[6px] md:text-xs">
           <Link
             href={"#"}
-            className="text-[8px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2"
+            className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2"
           >
             {info?.title}
           </Link>
-          <ul className="list-[square] list-inside text-[8px] md:text-xs">
+          <ul className="list-[square] list-inside text-[6px] md:text-xs">
             {info?.description?.map((item, index) => (
               <li key={index} className="my-2">
                 {item}
@@ -49,7 +49,7 @@ const ViewsCOSPage = () => {
           </ul>
           <Link
             href="#"
-            className="text-blue-950 font-semibold text-[8px] md:text-xs underline"
+            className="text-blue-950 font-semibold text-[6px] md:text-xs underline"
           >
             {info.help_link}
           </Link>

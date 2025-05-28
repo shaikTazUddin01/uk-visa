@@ -32,16 +32,16 @@ const LoginClient = () => {
     }, 100); // Delay to allow navigation to take effect
   };
   return (
-    <div className="min-h-screen text-[8px] md:text-xs px-4">
+    <div className="min-h-screen text-[6px] md:text-xs lg:px-4">
       <div className="w-full max-w-2xl bg-white  ">
         {/* Title */}
-        <h2 className="text-[8px] md:text-lg text-blue-950 font-bold">SMS log in</h2>
+        <h2 className="text-[5px] md:text-base lg:text-lg text-blue-900 font-bold">SMS log in</h2>
 
         {/* Description */}
-        <p className="mt-2 text-[8px] md:text-xs">
+        <p className="mt-1 text-[5px] md:text-xs">
           You must hold a sponsor licence to be able to log into SMS.
         </p>
-        <p className="text-[8px] md:text-xs mt-2">
+        <p className="text-[5px] md:text-xs mt-1">
           If you don&apos;t hold a licence or want to add a route to an existing
           licence, please use the{" "}
           <a href="#" className="text-blue-950 underline">
@@ -50,7 +50,7 @@ const LoginClient = () => {
           .
         </p>
 
-        <p className="text-[8px] md:text-xs mt-2">
+        <p className="text-[5px] md:text-xs mt-1">
           To log into SMS, enter your SMS user ID and password. YouTo log into
           SMS, enter your SMS user ID and password. You
           <strong className="text-black">
@@ -61,41 +61,41 @@ const LoginClient = () => {
           Misuse of SMS user IDs may lead to action being taken against you.
         </p>
 
-        <p className="text-[8px] md:text-xs mt-2">
+        <p className="text-[5px] md:text-xs mt-1">
           If you are copying and pasting your user ID and/or password, please
           ensure that spaces are not included at the end. If you enter an
           incorrect user ID or password three times, your account will be locked
           for approximately 20 minutes. If this occurs, you should try again
           later.
         </p>
-        <p className="text-[8px] md:text-xs  mt-2">
+        <p className="text-[5px] md:text-xs  mt-1">
           You must have Javascript enabled on your browser and a PDF viewer
           installed to use some functions in SMS.
         </p>
-        <p className="text-[8px] md:text-xs mt-3 font-semibold text-blue-950">
+        <p className="text-[5px] md:text-xs mt-3 font-semibold text-blue-950">
           You must never share your SMS user ID and/or password with another
           person. Misuse of SMS user IDs and/or passwords may lead to action
           being taken against you.
         </p>
 
         {error && (
-          <p className="text-red-500 text-[8px] md:text-xs mt-2 font-semibold">{error}</p>
+          <p className="text-red-500 text-[5px] md:text-xs mt-1 font-semibold">{error}</p>
         )}
 
         {/* Forgot Password */}
         <a
           href="#"
-          className="text-blue-950  text-[8px] md:text-xs underline mt-4 inline-block"
+          className="text-blue-950  text-[5px] md:text-xs underline mt-4 inline-block"
         >
           Forgotten your password?
         </a>
 
         {/* Login Form */}
         <div className="mt-2 border border-gray-300 bg-gray-100">
-          <h3 className="text-[8px] md:text-xs font-bold bg-gray-200 p-2">SMS log in</h3>
+          <h3 className="text-[5px] md:text-xs font-bold bg-gray-200 p-2">SMS log in</h3>
 
           <div className="mt-1 px-2 flex relative">
-            <label className="block text-[8px] md:text-xs">User ID: {"  "}</label>
+            <label className="block text-[5px] md:text-xs">User ID: {"  "}</label>
             <input
               type="text"
               required
@@ -106,7 +106,7 @@ const LoginClient = () => {
           </div>
 
           <div className="mt-2 px-2 flex relative pb-4">
-            <label className="block text-[8px] md:text-xs">Password:</label>
+            <label className="block text-[5px] md:text-xs">Password:</label>
             <input
               type="password"
               required
@@ -120,13 +120,13 @@ const LoginClient = () => {
         <div className="mt-4 flex justify-end gap-2">
           <Link
             href={"/"}
-            className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[8px] md:text-xs font-semibold"
+            className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[5px] md:text-xs font-semibold"
           >
             Cancel
           </Link>
           <button
             onClick={handleLogin}
-            className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[8px] md:text-xs font-semibold"
+            className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[5px] md:text-xs font-semibold"
           >
             Log in
           </button>

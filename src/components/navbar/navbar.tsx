@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
@@ -15,14 +16,16 @@ export default function Navbar() {
   return (
     <div className="max-w-screen-xl mx-auto w-full">
       {/* Top Bar */}
-      <div className="flex items-center space-x-2 px-2 py-2 border-b">
-        <Image
-          src="/logo.gif"
-          className="w-1/3 md:w-60"
-          alt="UKVI Logo"
-          width={300}
-          height={200}
-        />
+      <div className="flex items-center space-x-2 p-1 md:p-2">
+        <Link href="/">
+          <Image
+            src="/logo.gif"
+            className="w-5/6 md:w-64 md:py-2"
+            alt="UKVI Logo"
+            width={300}
+            height={200}
+          />
+        </Link>
       </div>
 
       <div className="relative">
@@ -31,9 +34,10 @@ export default function Navbar() {
           alt="UKVI Logo"
           width={10000}
           height={400}
+          className="w-full h-5 md:h-12"
         />
 
-        <p className="absolute top-1/2 -translate-y-1/2 left-0 text-white text-[5px] md:text-xs lg:p-4">
+        <p className="absolute top-1/2 -translate-y-1/2 left-0 text-white text-[5px] md:text-xs lg:p-4 pl-2 pt-1">
           You are here {">"} Sponsorship management system {">"}{" "}
           {(lastSegment === "creat-assign" ||
             lastSegment === "defined-cos" ||

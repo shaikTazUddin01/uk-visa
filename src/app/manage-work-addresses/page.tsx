@@ -2,16 +2,16 @@ import React from "react";
 
 const ManageWorkAddresses = () => {
   return (
-    <div className="max-w-2xl mx-auto text-[8px] md:text-xs">
-      <h1 className="text-[8px] md:text-lg text-blue-900 font-bold mt-3">
+    <div className="max-w-2xl mx-auto text-[6px] md:text-xs">
+      <h1 className="text-[6px] md:text-lg text-blue-900 font-bold mt-3">
         Manage work addresses
       </h1>
 
-      <p className="mt-1 mb-3 text-[8px] md:text-xs">
+      <p className="mt-1 mb-3 text-[6px] md:text-xs">
         Manage your saved work addresses or add new addresses. Any saved work
         addresses are shown below.
       </p>
-      <p className="mt-1 mb-3 text-[8px] md:text-xs">
+      <p className="mt-1 mb-3 text-[6px] md:text-xs">
         The <strong className="text-blue-900">Address identifier</strong> can be
         chosen to edit a saved address, or choose{" "}
         <strong className="text-blue-900">Add</strong> to add a new address.
@@ -26,7 +26,7 @@ const ManageWorkAddresses = () => {
         return to the previous screen.
       </p>
 
-      <p className="mt-1 mb-3 text-[8px] md:text-xs">
+      <p className="mt-1 mb-3 text-[6px] md:text-xs">
         <strong className="text-blue-900">Please note,</strong> changes made
         here will not take effect in any CoS that you have already assigned
         using an address from this list, nor does adding a new work address from
@@ -44,10 +44,10 @@ const ManageWorkAddresses = () => {
       </p>
 
       <div className="max-w-4xl mx-auto bg-gray-100 p-1 rounded-lg shadow-md">
-        <h2 className="text-[8px] md:text-xs font-bold bg-gray-200 ">Work addresses</h2>
+        <h2 className="text-[6px] md:text-xs font-bold bg-gray-200 ">Work addresses</h2>
         <table className="w-full border-collapse border border-gray-300 mt-2">
           <thead>
-            <tr className="bg-blue-50 text-left text-[8px] md:text-xs">
+            <tr className="bg-blue-50 text-left text-[6px] md:text-xs">
               <th className="border border-gray-300 p-1 font-bold">
                 Address identifier
               </th>
@@ -94,13 +94,13 @@ const ManageWorkAddresses = () => {
           </tbody>
         </table>
         <div className="mt-4 flex justify-end gap-2">
-          <button className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[8px] md:text-xs font-semibold">
+          <button className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[6px] md:text-xs font-semibold">
             Add
           </button>
         </div>
       </div>
       <div className="flex justify-end mt-2">
-        <button className="px-2 p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[8px] md:text-xs font-semibold">
+        <button className="px-2 p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[6px] md:text-xs font-semibold">
           Back
         </button>
       </div>

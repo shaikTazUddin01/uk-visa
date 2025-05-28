@@ -118,31 +118,30 @@ const SideNavbar = () => {
               <li key={index}>
                 <div
                   onClick={() => handleMenuClick(index)}
-                  className="group flex items-center gap-1 p-1 text-[8px]  md:text-xs cursor-pointer hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px]  md:text-[8px] lg:text-xs cursor-pointer hover:underline hover:text-violet-600"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition text-[8px] md:text-xs group-hover:text-violet-600" />
-                  {item.label}
+                  <p>
+                    <ImArrowDownRight className="text-blue-400 transition text-[5px] md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  </p>
+                  <p>{item.label}</p>
                 </div>
 
                 {activeMenu === index && item.subMenu && (
-                  <ul className="md:pl-4 bg-slate-100">
+                  <ul className="lg:pl-4 bg-slate-100">
                     {item.subMenu.map((subItem, index) => (
                       <li
                         key={index}
                         className="group flex items-center gap-1 p-0 m-0 border border-[#F4F4F4]"
                       >
-                        <span className="">
+                        <p>
                           <MdChevronRight className=" text-[blue-400] transition text-xs group-hover:text-violet-600" />
-                        </span>
-                        <span className="">
-                          {" "}
-                          <Link
-                            href={subItem.href}
-                            className="text-[8px] md:text-xs hover:underline hover:text-violet-600 "
-                          >
-                            {subItem.label}
-                          </Link>
-                        </span>
+                        </p>
+                        <Link
+                          href={subItem.href}
+                          className="text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600 "
+                        >
+                          {subItem.label}
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -154,23 +153,23 @@ const SideNavbar = () => {
               <>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 p-1 text-[8px] md:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-xs group-hover:text-violet-600" />
+                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
                   Change Password
                 </Link>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 p-1 text-[8px] md:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-xs group-hover:text-violet-600" />
+                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
                   Contact
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="group flex items-center gap-1 p-1 text-[8px] md:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-xs group-hover:text-violet-600" />
+                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
                   Logout
                 </button>
               </>
@@ -178,16 +177,16 @@ const SideNavbar = () => {
               <>
                 <Link
                   href={"/login"}
-                  className="group flex items-center gap-1 p-1  text-[8px] md:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-xs group-hover:text-violet-600" />
+                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
                   Login
                 </Link>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 p-1  text-[8px] md:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-xs group-hover:text-violet-600" />
+                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
                   Contact
                 </Link>
               </>
