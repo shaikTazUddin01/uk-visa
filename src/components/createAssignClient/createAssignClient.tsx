@@ -6,8 +6,7 @@ import countryList from "react-select-country-list";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Link from "next/link";
-import logo from "../../assets/logo.png"
-
+import logo from "../../assets/logo.png";
 
 const categories = [
   {
@@ -285,370 +284,424 @@ const CreateAssignClient = () => {
       .trim();
   };
 
-  // const generatePDF = (formData: Record<string, any>) => {
-  //   const doc = new jsPDF();
+  const loadImage = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL("image/png"));
+        } else {
+          reject(new Error("Could not create canvas context"));
+        }
+      };
+      img.onerror = (error) => {
+        console.error("Error loading image:", error);
+        reject(error);
+      };
+      // Ensure this path is correct relative to where your HTML/JS is served
+      // For development, place 'logo.png' in your 'public' folder or equivalent.
+      img.src = "/logo.png";
+    });
+  };
 
-  //   // Title
-  //   doc.text("User Information Report", 14, 15);
+  const generatePDF = async (formData: Record<string, any>) => {
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+    });
 
-  //   // Define table columns
-  //   const tableColumn = ["Information Categories", "Users Information"];
-  //   const tableRows: (string | number)[][] = [];
+    // Set default font to Helvetica
+    doc.setFont("helvetica");
 
-  //   // Convert formData into table rows with formatted labels
-  //   Object.entries(formData).forEach(([key, value]) => {
-  //     tableRows.push([formatLabel(key), value !== "" ? String(value) : "N/A"]);
-  //   });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const leftMargin = 15; // Consistent left margin for content
+    const rightMargin = 15; // Consistent right margin for content
+    const contentWidth = pageWidth - leftMargin - rightMargin; // Width available for text
 
-  //   // Add table to PDF
-  //   autoTable(doc, {
-  //     head: [tableColumn],
-  //     body: tableRows,
-  //     startY: 20,
-  //   });
+    // Helper function for key-value pairs to reduce repetition and ensure alignment
+    // This helper specifically formats based on the reference PDF's standard key-value layout.
+    const drawKeyValueSection = (
+      startY: number,
+      title: string,
+      data: { label: string; value: string }[],
+      labelOffset: number = 5,
+      valueOffset: number = 65
+    ) => {
+      let currentY = startY;
+      const labelX = leftMargin + labelOffset;
+      const valueX = leftMargin + valueOffset; // Adjusted for precise alignment
+      const lineHeight = 5; // Standard line height for individual items
 
-  //   // Save the PDF
-  //   doc.save("user_info_report.pdf");
-  // };
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10); // Section title font size
+      doc.text(title, leftMargin, currentY);
+      currentY += lineHeight + 2; // Space after title
 
-const loadImage = (): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(img, 0, 0);
-        resolve(canvas.toDataURL('image/png'));
-      } else {
-        reject(new Error('Could not create canvas context'));
-      }
-    };
-    img.onerror = (error) => reject(error);
-    img.src = "/logo.png";
-  });
-};
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9); // Data field font size
 
-
-const generatePDF = async(formData: Record<string, any>) => {
-  const doc = new jsPDF({
-    orientation: "portrait",
-    unit: "mm",
-    format: "a4"
-  });
-
-  // Set default font
-  doc.setFont("helvetica");
-  doc.setFontSize(10);
-
-  // ===== Page 1 =====
-  // image here
-    // const pageWidth = doc.internal.pageSize.getWidth();
-  const leftMargin = 15;
-  const topMargin = 10;
-    // ===== ADD LOGO =====
-// Left border (full page height)
-  doc.setDrawColor(0, 0, 255); // Blue color
-  doc.setLineWidth(0.6);
-  doc.line(leftMargin, 5, leftMargin, 30);
-
-  // ===== HEADER WITH LOGO =====
-  try {
-    // Add logo image
-    const logoWidth = 7;
-    const logoHeight = 8;
-    const logoX = leftMargin+1;
-    const logoY = topMargin;
-    
-    const imgData = await loadImage();
-    doc.addImage(imgData, 'PNG', logoX, logoY, logoWidth, logoHeight);
-    
-    // Header text positioning
-    const textStartY = logoY + logoHeight + 5;
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("UK Visas", leftMargin+1, textStartY+1);
-    doc.setFontSize(12);
-    doc.text("& Immigration", leftMargin, textStartY + 5);
-
-  } catch (error) {
-    console.error("Error loading logo:", error);
-    // Fallback header without logo
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
-    doc.text("UK Visas", leftMargin, topMargin);
-    doc.setFontSize(12);
-    doc.text("& Immigration", leftMargin, topMargin + 5);
-  }
-
-// ===== EXACT CERTIFICATE SECTION REPLICATION =====
-  doc.setFont("helvetica", "bold");
-  
-  // 1. Set the exact font size (11pt)
-  doc.setFontSize(11);
-  
-  // 2. Position the text exactly (15mm from left, 30mm from top)
-  const certText = "Certificate of Sponsorship Details";
-  doc.text(certText, 18, 31);
-
-  // 3. Calculate the perfect border dimensions
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const borderLeft = 15; // Matches text left position
-  const borderRight = pageWidth - 15; // Symmetrical right margin
-  const borderTop = 25; // 5mm above text
-  const borderBottom = 35; // 5mm below text
-
-  // 4. Draw the exact borders shown in screenshot
-  // Left border (blue)
-  doc.setDrawColor(144, 144, 144); // light black
-  doc.setLineWidth(0.3);
-  doc.line(borderLeft, borderTop, borderLeft, borderBottom);
-  
-  // Right border (blue)
-  doc.line(borderRight, borderTop, borderRight, borderBottom);
-  
-  // Top border (red)
-  doc.setDrawColor(221, 221, 221); // Pure red
-  doc.line(borderLeft, borderTop, borderRight, borderTop);
-  
-  // Bottom border (red)
-  doc.line(borderLeft, borderBottom, borderRight, borderBottom);
-
-
-
-
-  // Tier and Category (double label as in original)
-  doc.text("Tier and Category:", 15, 40);
-  doc.text("Tier and Category: Skilled Worker (New hires - defined)", 50, 40);
-
-  // Certificate of sponsorship status section
-  doc.text("Certificate of sponsorship status", 15, 50);
-  
-  const statusData = [
-    { label: "Sponsor licence number:", value: "T83VF90R4", x: 20, y: 55 },
-    { label: "Sponsor name:", value: "DIAL ONE SERVICES LTD", x: 20, y: 60 },
-    { label: "Certificate number:", value: "C2G8H88871U", x: 20, y: 65 },
-    { label: "Current certificate status:", value: "ASSIGNED", x: 20, y: 70 },
-    { label: "Current certificate status date:", value: "15 April 2025", x: 20, y: 75 },
-    { label: "Date assigned:", value: "15 April 2025", x: 20, y: 80 },
-    { label: "Expiry date (use by):", value: "16 July 2025", x: 20, y: 85 },
-    { label: "Sponsorship withdrawn:", value: "N", x: 20, y: 90 },
-    { label: "Sponsor note:", value: "", x: 20, y: 95 },
-    { label: "Migrant application status:", value: "", x: 20, y: 100 }
-  ];
-
-  statusData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
-
-  // Personal information section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Personal information", 15, 110);
-  doc.setFont("helvetica", 'normal');
-
-  const personalData = [
-    { label: "Family name:", value: "BEGUM", x: 20, y: 115 },
-    { label: "Given name(s):", value: "MST MUNNE", x: 20, y: 120 },
-    { label: "Other names:", value: "", x: 20, y: 125 },
-    { label: "Nationality:", value: "BANGLADESH", x: 20, y: 130 },
-    { label: "Place of birth:", value: "SYLHET", x: 20, y: 135 },
-    { label: "Country of birth:", value: "BANGLADESH", x: 20, y: 140 },
-    { label: "Date of birth:", value: "01/01/1993", x: 20, y: 145 },
-    { label: "Gender:", value: "Female", x: 20, y: 150 },
-    { label: "Country of residence:", value: "BANGLADESH", x: 20, y: 155 }
-  ];
-
-  personalData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
-
-  // Passport section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Passport or travel document", 15, 165);
-  doc.setFont("helvetica", 'normal');
-
-  const passportData = [
-    { label: "Passport number:", value: "A15258777", x: 20, y: 170 },
-    { label: "Issue date:", value: "24 March 2024", x: 20, y: 175 },
-    { label: "Expiry date:", value: "23 March 2034", x: 20, y: 180 },
-    { label: "Place of issue of passport:", value: "DIP/DHAKA", x: 20, y: 185 }
-  ];
-
-  passportData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
-
-  // Current home address section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Current home address", 15, 195);
-  doc.setFont("helvetica", 'normal');
-
-  const addressLines = [
-    { text: "Address: DAKSHIN KANISHAIL GOLAPGONJ", x: 20, y: 200 },
-    { text: "City or town: SYLHET", x: 20, y: 205 },
-    { text: "County, area district or province: DHAKA", x: 20, y: 210 },
-    { text: "Postcode: 3161", x: 20, y: 215 },
-    { text: "Country: BANGLADESH", x: 20, y: 220 }
-  ];
-
-  addressLines.forEach(line => {
-    doc.text(line.text, line.x, line.y);
-  });
-
-  // Identification numbers section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Identification numbers", 15, 230);
-  doc.setFont("helvetica", 'normal');
-
-  const idData = [
-    { label: "UK ID card number:", value: "", x: 20, y: 235 },
-    { label: "UK National Insurance number:", value: "", x: 20, y: 240 },
-    { label: "National ID card number:", value: "", x: 20, y: 245 },
-    { label: "Employee number:", value: "", x: 20, y: 250 }
-  ];
-
-  idData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
-
-  // ===== Page 2 =====
-  doc.addPage();
-
-  // Work dates section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Work dates", 15, 20);
-  doc.setFont("helvetica", 'normal');
-
-  const workData = [
-    { label: "Start date:", value: "01 May 2025", x: 20, y: 25 },
-    { label: "End date:", value: "30 April 2026", x: 20, y: 30 },
-    { 
-      label: "Does the migrant need to leave and re-enter the UK during the period of approval?", 
-      value: "N", 
-      x: 20, 
-      y: 35 
-    },
-    { label: "Total weekly hours of work:", value: "37.50", x: 20, y: 40 }
-  ];
-
-  workData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
-
-  // Main work address section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Main work address in the United Kingdom (mandatory for assignment):", 15, 50);
-  doc.setFont("helvetica", 'normal');
-
-  const workAddressLines = [
-    { text: "Address: 277A, DAMINI MALL", x: 20, y: 55 },
-    { text: "GREEN STREET", x: 60, y: 55 },
-    { text: "City or town: LONDON", x: 20, y: 60 },
-    { text: "County, area district or province:", x: 20, y: 65 },
-    { text: "Postcode: E7 8LJ", x: 20, y: 70 }
-  ];
-
-  workAddressLines.forEach(line => {
-    doc.text(line.text, line.x, line.y);
-  });
-
-  // Migrant's employment section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Migrant's employment", 15, 80);
-  doc.setFont("helvetica", 'normal');
-
-  const employmentData = [
-    { label: "Job title:", value: "Web Designer", x: 20, y: 85 },
-    { label: "Job type:", value: "2141 Web design professionals", x: 20, y: 90 },
-    { 
-      label: "Summary of job description:", 
-      value: "Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems implementing and maintaining high quality EC policies and incorporating them with web content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liasing with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.",
-      x: 20, 
-      y: 95 
-    },
-    { label: "New Entrant?", value: "N", x: 20, y: 125 },
-    { 
-      label: "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):", 
-      value: "21.18", 
-      x: 20, 
-      y: 130 
-    },
-    { label: "For each:", value: "Hour", x: 20, y: 135 },
-    { 
-      label: "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:", 
-      value: "Y", 
-      x: 20, 
-      y: 140 
-    },
-    { 
-      label: "Tick to certify maintenance for migrant (and dependants, if applicable):", 
-      value: "Y", 
-      x: 20, 
-      y: 145 
-    },
-    { 
-      label: "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?", 
-      value: "N", 
-      x: 20, 
-      y: 150 
-    }
-  ];
-
-  employmentData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    
-    // Handle multi-line text for job description
-    if (item.label === "Summary of job description:") {
-      const splitText = doc.splitTextToSize(item.value, 150);
-      let textY = item.y + 5;
-      splitText.forEach((line:any)=> {
-        doc.text(line, item.x + 5, textY);
-        textY += 5;
+      data.forEach((item) => {
+        doc.text(item.label, labelX, currentY);
+        doc.text(item.value, valueX, currentY);
+        currentY += lineHeight;
       });
-    } else {
-      doc.text(item.value, item.x + 60, item.y);
+      return currentY; // Return the current Y position for the next section
+    };
+
+    // --- Page 1 ---
+
+    // ===== UKVI Logo and Header =====
+    const ukviTopMargin = 10;
+    const ukviBlueLineHeight = 25.5; // Adjusted to be longer based on screenshot
+    const ukviBlueLineX = leftMargin;
+    const ukviBlueLineYStart = ukviTopMargin; // Start slightly above text
+    const ukviBlueLineYEnd = ukviTopMargin + ukviBlueLineHeight - 5;
+
+    doc.setDrawColor(128,0, 128); // Deeper blue for the line based on visual
+    doc.setLineWidth(0.4); // Slightly thicker line
+    doc.line(
+      ukviBlueLineX,
+      ukviBlueLineYStart,
+      ukviBlueLineX,
+      ukviBlueLineYEnd
+    );
+
+    try {
+      const logoWidth = 7; // Fine-tune this based on visual
+      const logoHeight = 8.7; // Fine-tune this based on visual
+      const logoX = ukviBlueLineX + 1.4; // Slightly right of the line
+      const logoY = ukviTopMargin; // Top align with header text
+
+      const imgData = await loadImage();
+      doc.addImage(imgData, "PNG", logoX, logoY, logoWidth, logoHeight);
+      const paddingBelowLogo = 5;
+      // Header text positioning
+      doc.setFont("helvetica");
+      doc.setFontSize(15.5); // Adjust font size for "UK Visas"
+      doc.text(
+        "UK Visas",
+        ukviBlueLineX + 2.2,
+        ukviTopMargin + logoHeight + paddingBelowLogo
+      ); // Adjusted Y for spacing
+      doc.setFontSize(15.5); // Adjust font size for "& Immigration"
+      doc.text(
+        "& Immigration",
+        ukviBlueLineX + 2.2,
+        ukviTopMargin + logoHeight + 11
+      ); // Adjusted Y for spacing
+    } catch (error) {
+      console.error("Error loading logo:", error);
+      // Fallback header without logo
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.text("UK Visas", leftMargin, ukviTopMargin + 2);
+      doc.setFontSize(10);
+      doc.text("& Immigration", leftMargin, ukviTopMargin + 7);
     }
-  });
 
-  // PAYE section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Migrant's employment - PAYE", 15, 160);
-  doc.setFont("helvetica", 'normal');
+    // ===== "Certificate of Sponsorship Details" Section =====
+    const certText = "Certificate of Sponsorship Details";
+    const certTextFontSize = 11;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(certTextFontSize);
 
-  const payeData = [
-    { label: "PAYE reference supplied?", value: "Y", x: 20, y: 165 },
-    { label: "PAYE reference number:", value: "120/AE80662", x: 20, y: 170 }
-  ];
+    // Border dimensions
+    const certBorderPaddingX = 5; // Padding left/right of text
+    const certBorderPaddingY = 0; // Padding top/bottom of text
 
-  payeData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
+    const certBorderLeft = leftMargin;
+    const certBorderRight = pageWidth - rightMargin;
+    const certBorderTop = 35; // Visually adjusted based on image
+    const certBorderBottom =
+      certBorderTop + certTextFontSize + 2 * certBorderPaddingY; // Calculated bottom of the box
 
-  // PhD section
-  doc.setFont("helvetica", 'bold');
-  doc.text("Migrant's employment - PhD", 15, 180);
-  doc.setFont("helvetica", 'normal');
+    const certTextX = leftMargin + certBorderPaddingX; // Text starts slightly in from border
+    // Adjusted to align baseline visually. Adjust 0.75 multiplier for font rendering differences.
+    const certTextY =
+      certBorderTop + certBorderPaddingY + certTextFontSize * 0.75;
 
-  const phdData = [
-    { label: "Is PhD Level qualification required for post?", value: "N", x: 20, y: 185 }
-  ];
+    doc.text(certText, certTextX, certTextY);
 
-  phdData.forEach(item => {
-    doc.text(item.label, item.x, item.y);
-    doc.text(item.value, item.x + 60, item.y);
-  });
+    // Draw the exact borders shown in screenshot
+    doc.setLineWidth(0.3);
 
-  // Save the PDF
-  doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
-};
+    // Left and Right borders (darker gray)
+    doc.setDrawColor(120, 120, 120); // Darker gray
+    doc.line(certBorderLeft, certBorderTop, certBorderLeft, certBorderBottom);
+    doc.line(certBorderRight, certBorderTop, certBorderRight, certBorderBottom);
+
+    // Top and Bottom borders (lighter gray)
+    doc.setDrawColor(200, 200, 200); // Lighter gray
+    doc.line(certBorderLeft, certBorderTop, certBorderRight, certBorderTop);
+    doc.line(
+      certBorderLeft,
+      certBorderBottom,
+      certBorderRight,
+      certBorderBottom
+    );
+
+    let currentY = certBorderBottom + 10; // Start Y after the "Certificate of Sponsorship Details" box with a 3mm gap.
+
+    // ===== "Tier and Category" Section Heading and Data =====
+    // This is the section heading "Tier and Category" (bold)
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text("Tier and Category", leftMargin, currentY);
+    currentY += 7; // Space after this heading
+
+    // Now for the actual label and value "Tier and Category: Skilled Worker (New hires defined)"
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    const tierAndCategoryLabelY = currentY; // Y for the label "Tier and Category:"
+    doc.text("Tier and Category:", leftMargin + 5, tierAndCategoryLabelY);
+
+    // Only print the *value* part of the "Tier and Category" entry
+    // Adjusted Y and X to prevent overlap shown in Screenshot_9.png
+    doc.text(
+      "Skilled Worker (New hires defined)",
+      leftMargin + 65,
+      tierAndCategoryLabelY + 0.5
+    );
+    currentY += 10; // Adequate space for the next section title
+
+    // ===== "Certificate of sponsorship status" Section =====
+    currentY = drawKeyValueSection(
+      currentY,
+      "Certificate of sponsorship status",
+      [
+        { label: "Sponsor licence number:", value: "T83VF9QR4" },
+        { label: "Sponsor name:", value: "DIAL ONE SERVICES LTD" },
+        { label: "Certificate number:", value: "C2G8H88871U" },
+        { label: "Current certificate status:", value: "ASSIGNED" },
+        { label: "Current certificate status date:", value: "15 April 2025" },
+        { label: "Date assigned:", value: "15 April 2025" },
+        { label: "Expiry date (use by):", value: "16 July 2025" },
+        { label: "Sponsorship withdrawn:", value: "N" },
+        { label: "Sponsor note:", value: "" },
+        { label: "Migrant application status:", value: "" },
+      ]
+    );
+    currentY += 5; // Add extra space before next section
+
+    // ===== "Personal information" Section =====
+    currentY = drawKeyValueSection(currentY, "Personal information", [
+      { label: "Family name:", value: "BEGUM" },
+      { label: "Given name(s):", value: "MST MUNNE" },
+      { label: "Other names:", value: "" },
+      { label: "Nationality:", value: "BANGLADESH" },
+      { label: "Place of birth:", value: "SYLHET" },
+      { label: "Country of birth:", value: "BANGLADESH" },
+      { label: "Date of birth:", value: "01/01/1993" },
+      { label: "Gender:", value: "Female" },
+      { label: "Country of residence:", value: "BANGLADESH" },
+    ]);
+    currentY += 5;
+
+    // ===== "Passport or travel document" Section =====
+    currentY = drawKeyValueSection(currentY, "Passport or travel document", [
+      { label: "Passport number:", value: "A15258777" },
+      { label: "Issue date:", value: "24 March 2024" },
+      { label: "Expiry date:", value: "23 March 2034" },
+      { label: "Place of issue of passport:", value: "DIP/DHAKA" },
+    ]);
+    currentY += 5;
+
+    // ===== "Current home address" Section =====
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text("Current home address", leftMargin, currentY);
+    currentY += 7; // Space after title
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("Address: DAKSHIN KANISHAIL", leftMargin + 5, currentY);
+    doc.text("GOLAPGONJ", leftMargin + 65, currentY); // Aligned with other values
+    currentY += 5;
+    doc.text("City or town: SYLHET", leftMargin + 5, currentY);
+    currentY += 5;
+    doc.text(
+      "County, area district or province: DHAKA",
+      leftMargin + 5,
+      currentY
+    );
+    currentY += 5;
+    doc.text("Postcode: 3161", leftMargin + 5, currentY);
+    currentY += 5;
+    doc.text("Country: BANGLADESH", leftMargin + 5, currentY);
+    currentY += 10; // Extra space after address
+
+    // ===== "Identification numbers" Section =====
+    currentY = drawKeyValueSection(currentY, "Identification numbers", [
+      { label: "UK ID card number:", value: "" },
+      { label: "UK National Insurance number:", value: "" },
+      { label: "National ID card number:", value: "" },
+      { label: "Employee number:", value: "" },
+    ]);
+
+    // --- Page 2 ---
+    doc.addPage();
+    currentY = 20; // Reset Y for new page
+
+    // ===== "Work dates" Section =====
+    currentY = drawKeyValueSection(currentY, "Work dates", [
+      { label: "Start date:", value: "01 May 2025" },
+      { label: "End date:", value: "30 April 2026" },
+      {
+        label:
+          "Does the migrant need to leave and re-enter the UK during the period of approval?",
+        value: "N",
+      },
+      { label: "Total weekly hours of work:", value: "37.50" },
+    ]);
+    currentY += 5;
+
+    // ===== "Main work address in the United Kingdom (mandatory for assignment):" Section =====
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text(
+      "Main work address in the United Kingdom (mandatory for assignment):",
+      leftMargin,
+      currentY
+    );
+    currentY += 7;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text("Address: 277A, DAMINI MALL", leftMargin + 5, currentY);
+    currentY += 5; // New line for "GREEN STREET"
+    doc.text("GREEN STREET", leftMargin + 65, currentY); // Aligned with values, not labels
+    currentY += 5;
+    doc.text("City or town: LONDON", leftMargin + 5, currentY);
+    currentY += 5;
+    doc.text("County, area district or province:", leftMargin + 5, currentY); // Empty value in original
+    currentY += 5;
+    doc.text("Postcode: E7 8LJ", leftMargin + 5, currentY);
+    currentY += 10;
+
+    // ===== "Other regular work addresses in the United Kingdom:" Section =====
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text(
+      "Other regular work addresses in the United Kingdom:",
+      leftMargin,
+      currentY
+    );
+    currentY += 7; // Space for the empty section
+
+    // ===== "Migrant's employment" Section =====
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text("Migrant's employment", leftMargin, currentY);
+    currentY += 7;
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+
+    doc.text("Job title:", leftMargin + 5, currentY);
+    doc.text("Web Designer", leftMargin + 65, currentY);
+    currentY += 5;
+
+    doc.text("Job type:", leftMargin + 5, currentY);
+    doc.text("2141 Web design professionals", leftMargin + 65, currentY);
+    currentY += 5;
+
+    // ===== "Summary of job description:" Section =====
+    doc.text("Summary of job description:", leftMargin + 5, currentY);
+    currentY += 4; // Move Y down for the start of the wrapped text
+
+    const jobDescription = `Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems Implementing and maintaining high quality SEO policies and incorporating them with web content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liaising with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.`;
+    // Adjusted split width (e.g., 130-140) to match the original PDF's wrapping.
+    const splitJobDescription = doc.splitTextToSize(
+      jobDescription,
+      contentWidth - 10
+    );
+
+    const jobDescValueX = leftMargin + 10; // A slight indent under the label for the wrapped text.
+    splitJobDescription.forEach((line: string) => {
+      doc.text(line, jobDescValueX, currentY);
+      currentY += 3.8; // Adjusted line height for wrapped text for a tighter fit.
+    });
+    currentY += 4; // Space after job description block
+
+    doc.text("New Entrant?", leftMargin + 5, currentY);
+    doc.text("N", leftMargin + 65, currentY);
+    currentY += 5;
+
+    // ===== "Gross salary" Section =====
+    const salaryLabel =
+      "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):";
+    const splitSalaryLabel = doc.splitTextToSize(salaryLabel, 55); // Width for the label
+    let salaryLabelY = currentY;
+    splitSalaryLabel.forEach((line: string) => {
+      doc.text(line, leftMargin + 5, salaryLabelY);
+      salaryLabelY += 3.8; // Tighter line height for the wrapped label
+    });
+    doc.text("21.18", leftMargin + 65, currentY); // Value position, aligned with the first line of the label
+    currentY = salaryLabelY + 1; // Update currentY based on where the label ended, plus a small gap
+
+    // ===== "For each:" Section =====
+    doc.text("For each:", leftMargin + 5, currentY);
+    doc.text("Hour", leftMargin + 65, currentY);
+    currentY += 5;
+
+    // ===== "Tick to confirm that the post is at the appropriate skill level" Section =====
+    const tickLabel1 =
+      "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:";
+    const splitTickLabel1 = doc.splitTextToSize(tickLabel1, 55);
+    let tickLabel1Y = currentY;
+    splitTickLabel1.forEach((line: string) => {
+      doc.text(line, leftMargin + 5, tickLabel1Y);
+      tickLabel1Y += 3.8;
+    });
+    doc.text("Y", leftMargin + 65, currentY);
+    currentY = tickLabel1Y + 1;
+
+    // ===== "Tick to certify maintenance for migrant" Section =====
+    const tickLabel2 =
+      "Tick to certify maintenance for migrant (and dependants, if applicable):";
+    const splitTickLabel2 = doc.splitTextToSize(tickLabel2, 55);
+    let tickLabel2Y = currentY;
+    splitTickLabel2.forEach((line: string) => {
+      doc.text(line, leftMargin + 5, tickLabel2Y);
+      tickLabel2Y += 3.8;
+    });
+    doc.text("Y", leftMargin + 65, currentY);
+    currentY = tickLabel2Y + 1;
+
+    // ===== "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate" Section =====
+    const atasLabel =
+      "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?";
+    const splitAtasLabel = doc.splitTextToSize(atasLabel, 55);
+    let atasLabelY = currentY;
+    splitAtasLabel.forEach((line: string) => {
+      doc.text(line, leftMargin + 5, atasLabelY);
+      atasLabelY += 3.8;
+    });
+    doc.text("N", leftMargin + 65, currentY);
+    currentY = atasLabelY + 5; // Extra space after this section
+
+    // ===== "Migrant's employment - PAYE" Section =====
+    currentY = drawKeyValueSection(currentY, "Migrant's employment - PAYE", [
+      { label: "PAYE reference supplied?", value: "Y" },
+      { label: "PAYE reference number:", value: "120/AE80662" },
+    ]);
+    currentY += 5;
+
+    // ===== "Migrant's employment - PhD" Section =====
+    currentY = drawKeyValueSection(currentY, "Migrant's employment - PhD", [
+      { label: "Is PhD Level qualification required for post?", value: "N" },
+    ]);
+
+    // Save the PDF
+    doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
+  };
+
   return (
     <div className="flex flex-col gap-4  text-[8px] md:text-xs">
       <div className=" text-[8px] md:text-xs">
