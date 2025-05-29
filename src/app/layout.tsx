@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[860px] w-[300px] md:w-[500px] lg:w-[860px] mx-auto`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased max-w-[860px] w-[300px] md:w-[500px] lg:w-[860px] xl:w-[1250px]  mx-auto`}
       >
         <Navbar />
         <div className="max-w-screen-xl mx-auto grid grid-cols-4">
