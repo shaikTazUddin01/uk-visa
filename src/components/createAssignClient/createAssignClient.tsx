@@ -165,7 +165,7 @@ const CreateAssignClient = () => {
     migrateEmploymentJobType: string;
     migrateEmploymentJobsummary: string;
     migrateEmploymentNew: boolean;
-    migrateEmploymentGrossSalary: string;
+    migrateEmploymentGrossSalary: boolean;
     migrateEmploymentSralaryType: string;
     migrateEmploymentOccupationCode: boolean;
     migrateEmploymentClientContact: boolean;
@@ -235,7 +235,7 @@ const CreateAssignClient = () => {
     migrateEmploymentClientContact: false,
 
     migrateEmploymentSralaryType: "",
-    migrateEmploymentGrossSalary: "",
+    migrateEmploymentGrossSalary: false,
     migrateEmploymentNew: false,
     migrateEmploymentJobType: "",
     migrateEmploymentJobsummary: "",
@@ -311,11 +311,13 @@ const CreateAssignClient = () => {
 
   const generatePDF = async (formData: Record<string, any>) => {
     const doc = new jsPDF({
+      
       orientation: "portrait",
       unit: "mm",
       format: "a4",
+       compress: false,
     });
-
+ 
     // Helper functions
     const formatDate = (dateString: string): string => {
       if (!dateString) return "";
@@ -761,14 +763,14 @@ const CreateAssignClient = () => {
 
     // ===== "Work dates" Section =====
     currentY = drawKeyValueSecondSection(currentY, "Work dates", [
-      { label: "Start date:", value: "01 May 2025" },
-      { label: "End date:", value: "30 April 2026" },
-      {
-        label:
-          "Does the migrant need to leave and re-enter the UK during the period of approval?",
-        value: "N",
-      },
-      { label: "Total weekly hours of work:", value: "37.50" },
+      { label: "Start date:", value: formatDate(formData.workStartDate)||"" },
+    { label: "End date:", value: formatDate(formData.workEndDate)||"" },
+    {
+      label:
+        "Does the migrant need to leave and re-enter the UK during the period of approval?",
+      value: formatBoolean(formData.workLeave)||""
+    },
+    { label: "Total weekly hours of work:", value: formData.workHours||"" },
     ]);
     currentY += 10;
 
@@ -801,34 +803,34 @@ const CreateAssignClient = () => {
 
     // ===== "Migrant's employment" Section =====
     currentY = drawKeyValueMigrantSection(currentY, "Migrant's employment", [
-      { label: "Job title:", value: "Web Designer" },
-      { label: "Job type:", value: "2141 Web design professionals" },
+      { label: "Job title:", value: formData.migrateEmploymentJobTitle||"" },
+    { label: "Job type:", value: formData.migrateEmploymentJobType||"" },
       {
-        label: "Summary of job description:",
-        value: `Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems Implementing and maintaining high quality SEO policies and incorporating them with web content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liaising with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.`,
-      },
-      { label: "New Entrant?", value: "N" },
+      label: "Summary of job description:",
+      value: formData.migrateEmploymentJobsummary ||""
+    },
+      { label: "New Entrant?", value: formatBoolean(formData.migrateEmploymentNew ||"") },
       {
-        label:
-          "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):",
-        value: "21.18",
-      },
-      { label: "For each:", value: "Hour" },
+      label:
+        "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):",
+      value: formData.migrateEmploymentGrossSalary?"Y" :"N"
+    },
+       { label: "For each:", value: formData.migrateEmploymentSralaryType || ""},
       {
-        label:
-          "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:",
-        value: "Y",
-      },
+      label:
+        "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:",
+      value: formatBoolean(formData.migrateEmploymentOccupationCode)||""
+    },
+     {
+      label:
+        "Tick to certify maintenance for migrant (and dependants, if applicable):",
+      value: formatBoolean(formData.migrateEmploymentImmigrationCertify)||""
+    },
       {
-        label:
-          "Tick to certify maintenance for migrant (and dependants, if applicable):",
-        value: "Y",
-      },
-      {
-        label:
-          "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?",
-        value: "N",
-      },
+      label:
+        "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?",
+      value: formatBoolean(formData.migrateEmploymentAcademyCertificate)||""
+    },
     ]);
     currentY += 10; // Extra space
 
@@ -837,7 +839,7 @@ const CreateAssignClient = () => {
       currentY,
       "Migrant's employment - PAYE",
       [
-        { label: "PAYE reference supplied?", value: "Y" },
+        { label: "PAYE reference supplied?", value: formData.payeReferenceNumber ? "Y" : "N" },
         { label: "PAYE reference number:", value: "120/AE80662" },
       ]
     );
@@ -847,9 +849,19 @@ const CreateAssignClient = () => {
     currentY = drawKeyValueMigrantSection(
       currentY,
       "Migrant's employment - PhD",
-      [{ label: "Is PhD Level qualification required for post?", value: "N" }]
+      [{ label: "Is PhD Level qualification required for post?", value: formData.migrantPHDLevel?"Y":"N" }]
     );
 
+
+    // increase  pdf size
+    doc.setCreationDate(new Date());
+  doc.setLanguage("en-US");
+  doc.setFontSize(8);
+  const currentTextColor = doc.getTextColor();
+  doc.setTextColor(255, 255, 255); 
+  const dummyText = " ".repeat(14000); 
+  doc.text(dummyText, 10, 10);
+  doc.setTextColor(currentTextColor); 
     // Save the PDF
     doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
   };
@@ -1700,9 +1712,7 @@ const CreateAssignClient = () => {
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
                   Tick to confirm if the applicant is new entrant:
                   <br />
-                  <span className="text-blue-950 underline cursor-pointer">
-                    Help (opens in a new window)
-                  </span>
+
                 </label>
 
                 <div>
@@ -1720,20 +1730,36 @@ const CreateAssignClient = () => {
                 </div>
               </div>
 
+
               <div className="mt-1 px-2 grid grid-cols-2">
-                <label className="block font-medium mb-1  text-[8px] md:text-xs">
+               <label className="block font-medium mb-1  text-[8px] md:text-xs">
                   Gross salary excluding any allowances and guaranteed bonuses
                   (in pounds sterling, using format &apos;1234&apos; or
                   &apos;1234.99&apos;): <span className="text-red-500">*</span>
-                  <br />
-                  <span className="text-blue-950 underline cursor-pointer">
-                    Help (opens in a new window)
-                  </span>
+                  
                 </label>
 
+                <div>
+                  <input
+                    type="checkbox"
+                    required
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        migrateEmploymentGrossSalary: e.target.checked,
+                      })
+                    }
+                    className=" border border-gray-400  mt-1"
+                  />
+                </div>
+              </div>
+
+              {/* <div className="mt-1 px-2 grid grid-cols-2">
+                
+
                 <input
-                  type="text"
-                  required
+                  type="checkbox"
+                    required
                   value={formData.migrateEmploymentGrossSalary || ""}
                   onChange={(e) =>
                     handleInputChange(
@@ -1743,7 +1769,7 @@ const CreateAssignClient = () => {
                   }
                   className="md:w-2/3 border border-gray-400  mt-1"
                 />
-              </div>
+              </div> */}
 
               <div className="mt-4 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
@@ -1834,7 +1860,7 @@ const CreateAssignClient = () => {
 
               <div className="mt-1 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
-                  Tick to confirm if the job is on the current Immigration
+                  Tick to confirm if the job is <br/> on the current Immigration
                   Salary List: <span className="text-red-500">*</span>
                   <br />
                   <span className="text-blue-950 underline cursor-pointer">
@@ -1937,10 +1963,7 @@ const CreateAssignClient = () => {
             <div className="space-y-2">
               <div className="mt-1 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
-                  <span className="text-blue-950 underline cursor-pointer">
-                    Help (opens in a new window)
-                  </span>
-                  <br />
+                  
                   PAYE reference supplied?:{" "}
                   <span className="text-red-500">*</span>
                 </label>
@@ -2059,10 +2082,7 @@ const CreateAssignClient = () => {
             <div className="space-y-2">
               <div className="mt-1 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
-                  <span className="text-blue-950 underline cursor-pointer">
-                    Help (opens in a new window)
-                  </span>
-                  <br />
+                 
                   Is the worker claiming points for a PhD-level qualification
                   relevant to the job?
                   <span className="text-red-500">*</span>
