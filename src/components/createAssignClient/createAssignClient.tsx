@@ -316,6 +316,23 @@ const CreateAssignClient = () => {
       format: "a4",
     });
 
+    // Helper functions
+    const formatDate = (dateString: string): string => {
+      if (!dateString) return "";
+      try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return "";
+        return date.toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      } catch (e) {
+        return "";
+      }
+    };
+
+    const formatBoolean = (value: boolean): string => (value ? "Y" : "N");
     // Set default font to Helvetica
     doc.setFont("helvetica");
 
@@ -354,151 +371,170 @@ const CreateAssignClient = () => {
       return currentY; // Return the current Y position for the next section
     };
 
-const drawKeyValueSecondSection = (
-    startY: number,
-    title: string,
-    data: { label: string; value: string }[],
-    labelWidth: number = 58, // লেবেল কলামের জন্য নির্দিষ্ট প্রস্থ
-    valueOffset: number = 66 // ভ্যালুর জন্য X-কোঅর্ডিনেট, leftMargin এর সাপেক্ষে
-): number => {
-    let currentY: number = startY;
-    const labelX: number = leftMargin; // লেবেল leftMargin থেকে শুরু হয়
-    const valueX: number = leftMargin + valueOffset; // ভ্যালু লেবেল কলামের পরে শুরু হয়
+    const drawKeyValueSecondSection = (
+      startY: number,
+      title: string,
+      data: { label: string; value: string }[],
+      labelWidth: number = 58, // লেবেল কলামের জন্য নির্দিষ্ট প্রস্থ
+      valueOffset: number = 66 // ভ্যালুর জন্য X-কোঅর্ডিনেট, leftMargin এর সাপেক্ষে
+    ): number => {
+      let currentY: number = startY;
+      const labelX: number = leftMargin; // লেবেল leftMargin থেকে শুরু হয়
+      const valueX: number = leftMargin + valueOffset; // ভ্যালু লেবেল কলামের পরে শুরু হয়
 
-    const lineHeight: number = 4; // প্রতিটি আইটেমের জন্য স্ট্যান্ডার্ড লাইন উচ্চতা
-    const paddingAfterTitle: number = 2; // টাইটেলের পরে স্থান
+      const lineHeight: number = 4; // প্রতিটি আইটেমের জন্য স্ট্যান্ডার্ড লাইন উচ্চতা
+      const paddingAfterTitle: number = 2; // টাইটেলের পরে স্থান
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(8); // সেকশন টাইটেলের ফন্ট সাইজ
-    doc.text(title, leftMargin, currentY);
-    currentY += lineHeight + paddingAfterTitle; // টাইটেলের পরে স্থান
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8); // সেকশন টাইটেলের ফন্ট সাইজ
+      doc.text(title, leftMargin, currentY);
+      currentY += lineHeight + paddingAfterTitle; // টাইটেলের পরে স্থান
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8); // ডেটা ফিল্ডের ফন্ট সাইজ
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8); // ডেটা ফিল্ডের ফন্ট সাইজ
 
-    data.forEach((item: { label: string; value: string }) => {
+      data.forEach((item: { label: string; value: string }) => {
         // লেবেল টেক্সটকে labelWidth এর বেশি হলে বিভক্ত করুন
-        const splitLabel: string[] = doc.splitTextToSize(item.label, labelWidth);
-        
+        const splitLabel: string[] = doc.splitTextToSize(
+          item.label,
+          labelWidth
+        );
+
         // লেবেলের প্রথম লাইনের Y পজিশন সংরক্ষণ করুন
         const labelStartYForThisItem = currentY;
 
         // বিভক্ত লেবেলের প্রতিটি লাইন আঁকুন
         splitLabel.forEach((line: string, index: number) => {
-            doc.text(line, labelX, labelStartYForThisItem + (index * lineHeight)); // প্রতিটি লাইন আঁকার জন্য সঠিক Y পজিশন
+          doc.text(line, labelX, labelStartYForThisItem + index * lineHeight); // প্রতিটি লাইন আঁকার জন্য সঠিক Y পজিশন
         });
 
         // ভ্যালু আঁকুন। ভ্যালু লেবেলের প্রথম লাইনের Y পজিশনে শুরু হবে।
-        doc.text(item.value, valueX, labelStartYForThisItem); 
+        doc.text(item.value, valueX, labelStartYForThisItem);
 
         // পরবর্তী কী-ভ্যালু পেয়ারের জন্য currentY আপডেট করুন
         // লেবেলের শেষ লাইনের পরে পরবর্তী এন্ট্রি শুরু হবে
-        currentY = labelStartYForThisItem + (splitLabel.length * lineHeight); 
+        currentY = labelStartYForThisItem + splitLabel.length * lineHeight;
         currentY += 0; // প্রতিটি এন্ট্রির মধ্যে অতিরিক্ত স্থান (যদি প্রয়োজন হয়)
-    });
-    return currentY; // পরবর্তী সেকশনের জন্য বর্তমান Y পজিশন ফেরত দিন
-};
-const drawKeyValueMigrantSection = (
-    startY: number,
-    title: string,
-    data: { label: string; value: string }[],
-    labelWidth: number = 90,
-    valueOffset: number = 92
-): number => {
-    let currentY: number = startY;
-    const labelX: number = leftMargin;
-    const valueX: number = leftMargin + valueOffset;
+      });
+      return currentY; // পরবর্তী সেকশনের জন্য বর্তমান Y পজিশন ফেরত দিন
+    };
+    const drawKeyValueMigrantSection = (
+      startY: number,
+      title: string,
+      data: { label: string; value: string }[],
+      labelWidth: number = 90,
+      valueOffset: number = 92
+    ): number => {
+      let currentY: number = startY;
+      const labelX: number = leftMargin;
+      const valueX: number = leftMargin + valueOffset;
 
-    const lineHeight: number = 4;
-    const paddingAfterTitle: number = 2;
-    const spacingBetweenItems: number = 2;
+      const lineHeight: number = 4;
+      const paddingAfterTitle: number = 2;
+      const spacingBetweenItems: number = 2;
 
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(8);
-    doc.text(title, leftMargin, currentY);
-    currentY += lineHeight + paddingAfterTitle;
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8);
+      doc.text(title, leftMargin, currentY);
+      currentY += lineHeight + paddingAfterTitle;
 
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
 
-    data.forEach((item: { label: string; value: string }) => {
-        const splitLabel: string[] = doc.splitTextToSize(item.label, labelWidth);
+      data.forEach((item: { label: string; value: string }) => {
+        const splitLabel: string[] = doc.splitTextToSize(
+          item.label,
+          labelWidth
+        );
         const labelStartYForThisItem = currentY;
 
         splitLabel.forEach((line: string, index: number) => {
-            doc.text(line, labelX, labelStartYForThisItem + (index * lineHeight));
+          doc.text(line, labelX, labelStartYForThisItem + index * lineHeight);
         });
 
-        const remainingWidthForValue = doc.internal.pageSize.getWidth() - valueX - leftMargin;
-        
+        const remainingWidthForValue =
+          doc.internal.pageSize.getWidth() - valueX - leftMargin;
+
         if (item.label === "Summary of job description:") {
-            const justifiedLines: string[] = [];
-            const words = item.value.split(' ');
-            let currentLineWords: string[] = [];
-            let currentLineText = '';
+          const justifiedLines: string[] = [];
+          const words = item.value.split(" ");
+          let currentLineWords: string[] = [];
+          let currentLineText = "";
 
-            for (let i = 0; i < words.length; i++) {
-                const word = words[i];
-                const testLine = currentLineWords.length > 0 ? currentLineText + ' ' + word : word;
+          for (let i = 0; i < words.length; i++) {
+            const word = words[i];
+            const testLine =
+              currentLineWords.length > 0 ? currentLineText + " " + word : word;
 
-                if (doc.getTextWidth(testLine) <= remainingWidthForValue) {
-                    currentLineText = testLine;
-                    currentLineWords.push(word);
-                } else {
-                    if (currentLineWords.length > 1) {
-                        const totalWordsWidth = doc.getTextWidth(currentLineWords.join(''));
-                        const remainingSpace = remainingWidthForValue - totalWordsWidth;
-                        const numGaps = currentLineWords.length - 1;
-                        const spaceToAddPerGap = numGaps > 0 ? remainingSpace / numGaps : 0;
-                        
-                        let justifiedLine = '';
-                        for (let j = 0; j < currentLineWords.length; j++) {
-                            justifiedLine += currentLineWords[j];
-                            if (j < numGaps) {
-                                justifiedLine += ' '.repeat(Math.floor(doc.getTextWidth(' ') + spaceToAddPerGap));
-                            }
-                        }
-                        justifiedLines.push(justifiedLine);
-                    } else {
-                        justifiedLines.push(currentLineWords[0]);
-                    }
-                    
-                    currentLineWords = [word];
-                    currentLineText = word;
+            if (doc.getTextWidth(testLine) <= remainingWidthForValue) {
+              currentLineText = testLine;
+              currentLineWords.push(word);
+            } else {
+              if (currentLineWords.length > 1) {
+                const totalWordsWidth = doc.getTextWidth(
+                  currentLineWords.join("")
+                );
+                const remainingSpace = remainingWidthForValue - totalWordsWidth;
+                const numGaps = currentLineWords.length - 1;
+                const spaceToAddPerGap =
+                  numGaps > 0 ? remainingSpace / numGaps : 0;
+
+                let justifiedLine = "";
+                for (let j = 0; j < currentLineWords.length; j++) {
+                  justifiedLine += currentLineWords[j];
+                  if (j < numGaps) {
+                    justifiedLine += " ".repeat(
+                      Math.floor(doc.getTextWidth(" ") + spaceToAddPerGap)
+                    );
+                  }
                 }
-            }
-            if (currentLineWords.length > 0) {
-                justifiedLines.push(currentLineWords.join(' '));
-            }
+                justifiedLines.push(justifiedLine);
+              } else {
+                justifiedLines.push(currentLineWords[0]);
+              }
 
-            justifiedLines.forEach((line: string, index: number) => {
-                doc.text(line, valueX, labelStartYForThisItem + (index * lineHeight));
-            });
+              currentLineWords = [word];
+              currentLineText = word;
+            }
+          }
+          if (currentLineWords.length > 0) {
+            justifiedLines.push(currentLineWords.join(" "));
+          }
 
+          justifiedLines.forEach((line: string, index: number) => {
+            doc.text(line, valueX, labelStartYForThisItem + index * lineHeight);
+          });
         } else {
-            const splitValue: string[] = doc.splitTextToSize(item.value, remainingWidthForValue);
-            splitValue.forEach((line: string, index: number) => {
-                doc.text(line, valueX, labelStartYForThisItem + (index * lineHeight));
-            });
+          const splitValue: string[] = doc.splitTextToSize(
+            item.value,
+            remainingWidthForValue
+          );
+          splitValue.forEach((line: string, index: number) => {
+            doc.text(line, valueX, labelStartYForThisItem + index * lineHeight);
+          });
         }
 
         const labelTotalHeight = splitLabel.length * lineHeight;
-        
+
         let valueTotalHeight = 0;
         if (item.label === "Summary of job description:") {
-            const lines = doc.splitTextToSize(item.value, remainingWidthForValue);
-            valueTotalHeight = lines.length * lineHeight;
+          const lines = doc.splitTextToSize(item.value, remainingWidthForValue);
+          valueTotalHeight = lines.length * lineHeight;
         } else {
-            const splitValue: string[] = doc.splitTextToSize(item.value, remainingWidthForValue);
-            valueTotalHeight = splitValue.length * lineHeight;
+          const splitValue: string[] = doc.splitTextToSize(
+            item.value,
+            remainingWidthForValue
+          );
+          valueTotalHeight = splitValue.length * lineHeight;
         }
-        
-        currentY = labelStartYForThisItem + Math.max(labelTotalHeight, valueTotalHeight) + spacingBetweenItems;
-    });
-    return currentY;
-};
 
-
+        currentY =
+          labelStartYForThisItem +
+          Math.max(labelTotalHeight, valueTotalHeight) +
+          spacingBetweenItems;
+      });
+      return currentY;
+    };
 
     // --- Page 1 ---
 
@@ -636,24 +672,36 @@ const drawKeyValueMigrantSection = (
 
     // ===== "Personal information" Section =====
     currentY = drawKeyValueSection(currentY, "Personal information", [
-      { label: "Family name:", value: "BEGUM" },
-      { label: "Given name(s):", value: "MST MUNNE" },
-      { label: "Other names:", value: "" },
-      { label: "Nationality:", value: "BANGLADESH" },
-      { label: "Place of birth:", value: "SYLHET" },
-      { label: "Country of birth:", value: "BANGLADESH" },
-      { label: "Date of birth:", value: "01/01/1993" },
-      { label: "Gender:", value: "Female" },
-      { label: "Country of residence:", value: "BANGLADESH" },
+      {
+        label: "Family name:",
+        value: formData.familyName ? formData?.familyName : "",
+      },
+      {
+        label: "Given name(s):",
+        value: formData.givenName ? formData.givenName : "",
+      },
+      { label: "Other names:", value: formData.otherNames || "" },
+      { label: "Nationality:", value: formData.nationality || "" },
+      { label: "Place of birth:", value: formData.placeOfBirth || "" },
+      { label: "Country of birth:", value: formData.countryOfBirth || "" },
+      {
+        label: "Date of birth:",
+        value: formatDate(formData.dateOfBirth) || "",
+      },
+      { label: "Gender:", value: formData.sex || "" },
+      {
+        label: "Country of residence:",
+        value: formData.countryOfResidence || "",
+      },
     ]);
     currentY += 4;
 
     // ===== "Passport or travel document" Section =====
     currentY = drawKeyValueSection(currentY, "Passport or travel document", [
-      { label: "Passport number:", value: "A15258777" },
-      { label: "Issue date:", value: "24 March 2024" },
-      { label: "Expiry date:", value: "23 March 2034" },
-      { label: "Place of issue of passport:", value: "DIP/DHAKA" },
+      { label: "Passport number:", value: formData.passportNumber },
+      { label: "Issue date:", value: formatDate(formData.passportIssueDate) },
+      { label: "Expiry date:", value: formatDate(formData.passportExpiryDate) },
+      { label: "Place of issue of passport:", value: formData.placeOfissue },
     ]);
     currentY += 4;
     // ===== "Current home address" Section =====
@@ -670,36 +718,41 @@ const drawKeyValueMigrantSection = (
 
     // Address lines
     doc.text("Address:", labelX, currentY);
-    doc.text("DAKSHIN KANISHAIL", valueX, currentY);
+    doc.text(formData.currentAddress || "", valueX, currentY);
     currentY += 4;
     doc.text("", labelX, currentY); // blank left label to keep alignment
-    doc.text("GOLAPGONJ", valueX, currentY);
+    doc.text(formData.currentDistrict || "", valueX, currentY);
     currentY += 4;
     doc.text("", labelX, currentY);
-    doc.text("SYLHET", valueX, currentY);
+    doc.text(formData.currentCity || "", valueX, currentY);
     currentY += 4;
-   
 
     // City / Postcode etc.
     doc.text("City or town:", labelX, currentY);
-    doc.text("DHAKA", valueX, currentY);
+    doc.text(formData.currentCity || "", valueX, currentY);
     currentY += 4;
     doc.text("County, area district or province:", labelX, currentY);
-    doc.text(" ", valueX, currentY);
+    doc.text(formData.currentDistrict || "", valueX, currentY);
     currentY += 4;
     doc.text("Postcode:", labelX, currentY);
-    doc.text("3161", valueX, currentY);
+    doc.text(formData.currentPostCode || "", valueX, currentY);
     currentY += 4;
     doc.text("Country:", labelX, currentY);
-    doc.text("BANGLADESH", valueX, currentY);
+    doc.text(formData.currentCountry || "", valueX, currentY);
     currentY += 10; // Extra space after section
 
     // ===== "Identification numbers" Section =====
     currentY = drawKeyValueSection(currentY, "Identification numbers", [
-      { label: "UK ID card number:", value: "" },
-      { label: "UK National Insurance number:", value: "" },
-      { label: "National ID card number:", value: "" },
-      { label: "Employee number:", value: "" },
+      { label: "UK ID card number:", value: formData.ukIdCardNumber || "" },
+      {
+        label: "UK National Insurance number:",
+        value: formData.ukNationalInsuranceNumber || "",
+      },
+      {
+        label: "National ID card number:",
+        value: formData.nationalIdNumber || "",
+      },
+      { label: "Employee number:", value: formData.employeeNumber || "" },
     ]);
 
     // --- Page 2 ---
@@ -721,18 +774,18 @@ const drawKeyValueMigrantSection = (
 
     // ===== "Main work address in the United Kingdom (mandatory for assignment):" Section =====
     currentY = drawKeyValueSecondSection(
-        currentY,
-        "Main work address in the United Kingdom (mandatory for assignment):",
-        [
-            { label: "Address:", value: "277A, DAMINI MALL" },
-            { label: "", value: "GREEN STREET" }, 
-            { label: "", value: "" }, 
-            { label: "City or town:", value: "LONDON" },
-            { label: "County, area district or province:", value: "" },
-            { label: "Postcode:", value: "E7 8LJ" },
-        ],
-        58, // labelWidth
-        66  // valueOffset
+      currentY,
+      "Main work address in the United Kingdom (mandatory for assignment):",
+      [
+        { label: "Address:", value: "277A, DAMINI MALL" },
+        { label: "", value: "GREEN STREET" },
+        { label: "", value: "" },
+        { label: "City or town:", value: "LONDON" },
+        { label: "County, area district or province:", value: "" },
+        { label: "Postcode:", value: "E7 8LJ" },
+      ],
+      58, // labelWidth
+      66 // valueOffset
     );
     currentY += 10;
 
@@ -746,50 +799,56 @@ const drawKeyValueMigrantSection = (
     );
     currentY += 15; // Space for the empty section
 
-  // ===== "Migrant's employment" Section =====
+    // ===== "Migrant's employment" Section =====
     currentY = drawKeyValueMigrantSection(currentY, "Migrant's employment", [
-    { label: "Job title:", value: "Web Designer" },
-    { label: "Job type:", value: "2141 Web design professionals" },
-    {
+      { label: "Job title:", value: "Web Designer" },
+      { label: "Job type:", value: "2141 Web design professionals" },
+      {
         label: "Summary of job description:",
         value: `Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems Implementing and maintaining high quality SEO policies and incorporating them with web content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liaising with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.`,
-    },
-    { label: "New Entrant?", value: "N" },
-    {
+      },
+      { label: "New Entrant?", value: "N" },
+      {
         label:
-            "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):",
+          "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):",
         value: "21.18",
-    },
-    { label: "For each:", value: "Hour" },
-    {
+      },
+      { label: "For each:", value: "Hour" },
+      {
         label:
-            "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:",
+          "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:",
         value: "Y",
-    },
-    {
+      },
+      {
         label:
-            "Tick to certify maintenance for migrant (and dependants, if applicable):",
+          "Tick to certify maintenance for migrant (and dependants, if applicable):",
         value: "Y",
-    },
-    {
+      },
+      {
         label:
-            "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?",
+          "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?",
         value: "N",
-    },
-]);
-currentY += 10; // Extra space
+      },
+    ]);
+    currentY += 10; // Extra space
 
     // ===== "Migrant's employment - PAYE" Section =====
-    currentY = drawKeyValueMigrantSection(currentY, "Migrant's employment - PAYE", [
-      { label: "PAYE reference supplied?", value: "Y" },
-      { label: "PAYE reference number:", value: "120/AE80662" },
-    ]);
+    currentY = drawKeyValueMigrantSection(
+      currentY,
+      "Migrant's employment - PAYE",
+      [
+        { label: "PAYE reference supplied?", value: "Y" },
+        { label: "PAYE reference number:", value: "120/AE80662" },
+      ]
+    );
     currentY += 10;
 
     // ===== "Migrant's employment - PhD" Section =====
-    currentY = drawKeyValueMigrantSection(currentY, "Migrant's employment - PhD", [
-      { label: "Is PhD Level qualification required for post?", value: "N" },
-    ]);
+    currentY = drawKeyValueMigrantSection(
+      currentY,
+      "Migrant's employment - PhD",
+      [{ label: "Is PhD Level qualification required for post?", value: "N" }]
+    );
 
     // Save the PDF
     doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
@@ -1020,7 +1079,7 @@ currentY += 10; // Extra space
                 >
                   <option value="">Please Select</option>
                   {options.map((item, i) => (
-                    <option key={i} value={item.value}>
+                    <option key={i} value={item.label}>
                       {item.label}
                     </option>
                   ))}
@@ -1037,6 +1096,21 @@ currentY += 10; // Extra space
                   value={formData.placeOfBirth || ""}
                   onChange={(e) =>
                     handleInputChange("placeOfBirth", e.target.value)
+                  }
+                  className="md:w-2/3 border border-gray-400  mt-1"
+                />
+              </div>
+
+              <div className="mt-1 px-2 grid grid-cols-2">
+                <label className="block font-medium mb-1  text-[8px] md:text-xs">
+                  Counatry of birth: <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.countryOfBirth || ""}
+                  onChange={(e) =>
+                    handleInputChange("countryOfBirth", e.target.value)
                   }
                   className="md:w-2/3 border border-gray-400  mt-1"
                 />
@@ -1062,10 +1136,8 @@ currentY += 10; // Extra space
                   Sex: <span className="text-red-500">*</span>
                 </label>
                 <select
-                  onChange={(e) =>
-                    handleInputChange("nationality", e.target.value)
-                  }
-                  value={formData.nationality || ""}
+                  onChange={(e) => handleInputChange("sex", e.target.value)}
+                  value={formData.sex || ""}
                   className="md:w-2/3 border border-gray-400  mt-1"
                 >
                   <option value="">Please Select</option>
@@ -1088,7 +1160,7 @@ currentY += 10; // Extra space
                 >
                   <option value="">Please Select</option>
                   {options.map((item, i) => (
-                    <option key={i} value={item.value}>
+                    <option key={i} value={item.label}>
                       {item.label}
                     </option>
                   ))}
