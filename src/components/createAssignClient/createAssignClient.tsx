@@ -310,14 +310,20 @@ const CreateAssignClient = () => {
   };
 
   const generatePDF = async (formData: Record<string, any>) => {
-    const doc = new jsPDF({
-      
-      orientation: "portrait",
-      unit: "mm",
-      format: "a4",
-       compress: false,
-    });
- 
+     const doc = new jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a4",
+    compress: false,
+  });
+
+  // Directly modify the PDF header
+  const internal = (doc as any).internal;
+  internal.writeHeader = () => {
+    internal.write('%PDF-1.4\n');
+    internal.write('%\xE2\xE3\xCF\xD3\n');
+  };
+
     // Helper functions
     const formatDate = (dateString: string): string => {
       if (!dateString) return "";
@@ -370,55 +376,45 @@ const CreateAssignClient = () => {
         doc.text(item.value, valueX, currentY);
         currentY += lineHeight;
       });
-      return currentY; // Return the current Y position for the next section
+      return currentY;
     };
 
     const drawKeyValueSecondSection = (
       startY: number,
       title: string,
       data: { label: string; value: string }[],
-      labelWidth: number = 58, // লেবেল কলামের জন্য নির্দিষ্ট প্রস্থ
-      valueOffset: number = 66 // ভ্যালুর জন্য X-কোঅর্ডিনেট, leftMargin এর সাপেক্ষে
+      labelWidth: number = 58,
+      valueOffset: number = 66
     ): number => {
       let currentY: number = startY;
-      const labelX: number = leftMargin; // লেবেল leftMargin থেকে শুরু হয়
-      const valueX: number = leftMargin + valueOffset; // ভ্যালু লেবেল কলামের পরে শুরু হয়
+      const labelX: number = leftMargin;
+      const valueX: number = leftMargin + valueOffset;
 
-      const lineHeight: number = 4; // প্রতিটি আইটেমের জন্য স্ট্যান্ডার্ড লাইন উচ্চতা
-      const paddingAfterTitle: number = 2; // টাইটেলের পরে স্থান
+      const lineHeight: number = 4;
+      const paddingAfterTitle: number = 2;
 
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(8); // সেকশন টাইটেলের ফন্ট সাইজ
+      doc.setFontSize(8);
       doc.text(title, leftMargin, currentY);
-      currentY += lineHeight + paddingAfterTitle; // টাইটেলের পরে স্থান
-
+      currentY += lineHeight + paddingAfterTitle;
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(8); // ডেটা ফিল্ডের ফন্ট সাইজ
+      doc.setFontSize(8);
 
       data.forEach((item: { label: string; value: string }) => {
-        // লেবেল টেক্সটকে labelWidth এর বেশি হলে বিভক্ত করুন
         const splitLabel: string[] = doc.splitTextToSize(
           item.label,
           labelWidth
         );
 
-        // লেবেলের প্রথম লাইনের Y পজিশন সংরক্ষণ করুন
         const labelStartYForThisItem = currentY;
-
-        // বিভক্ত লেবেলের প্রতিটি লাইন আঁকুন
         splitLabel.forEach((line: string, index: number) => {
-          doc.text(line, labelX, labelStartYForThisItem + index * lineHeight); // প্রতিটি লাইন আঁকার জন্য সঠিক Y পজিশন
+          doc.text(line, labelX, labelStartYForThisItem + index * lineHeight);
         });
-
-        // ভ্যালু আঁকুন। ভ্যালু লেবেলের প্রথম লাইনের Y পজিশনে শুরু হবে।
         doc.text(item.value, valueX, labelStartYForThisItem);
-
-        // পরবর্তী কী-ভ্যালু পেয়ারের জন্য currentY আপডেট করুন
-        // লেবেলের শেষ লাইনের পরে পরবর্তী এন্ট্রি শুরু হবে
         currentY = labelStartYForThisItem + splitLabel.length * lineHeight;
-        currentY += 0; // প্রতিটি এন্ট্রির মধ্যে অতিরিক্ত স্থান (যদি প্রয়োজন হয়)
+        currentY += 0;
       });
-      return currentY; // পরবর্তী সেকশনের জন্য বর্তমান Y পজিশন ফেরত দিন
+      return currentY;
     };
     const drawKeyValueMigrantSection = (
       startY: number,
@@ -763,14 +759,14 @@ const CreateAssignClient = () => {
 
     // ===== "Work dates" Section =====
     currentY = drawKeyValueSecondSection(currentY, "Work dates", [
-      { label: "Start date:", value: formatDate(formData.workStartDate)||"" },
-    { label: "End date:", value: formatDate(formData.workEndDate)||"" },
-    {
-      label:
-        "Does the migrant need to leave and re-enter the UK during the period of approval?",
-      value: formatBoolean(formData.workLeave)||""
-    },
-    { label: "Total weekly hours of work:", value: formData.workHours||"" },
+      { label: "Start date:", value: formatDate(formData.workStartDate) || "" },
+      { label: "End date:", value: formatDate(formData.workEndDate) || "" },
+      {
+        label:
+          "Does the migrant need to leave and re-enter the UK during the period of approval?",
+        value: formatBoolean(formData.workLeave) || "",
+      },
+      { label: "Total weekly hours of work:", value: formData.workHours || "" },
     ]);
     currentY += 10;
 
@@ -803,34 +799,43 @@ const CreateAssignClient = () => {
 
     // ===== "Migrant's employment" Section =====
     currentY = drawKeyValueMigrantSection(currentY, "Migrant's employment", [
-      { label: "Job title:", value: formData.migrateEmploymentJobTitle||"" },
-    { label: "Job type:", value: formData.migrateEmploymentJobType||"" },
+      { label: "Job title:", value: formData.migrateEmploymentJobTitle || "" },
+      { label: "Job type:", value: formData.migrateEmploymentJobType || "" },
       {
-      label: "Summary of job description:",
-      value: formData.migrateEmploymentJobsummary ||""
-    },
-      { label: "New Entrant?", value: formatBoolean(formData.migrateEmploymentNew ||"") },
+        label: "Summary of job description:",
+        value:
+          " Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems Implementing and maintaining high quality SEO policies and incorporating them withweb content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liaising with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.",
+      },
       {
-      label:
-        "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):",
-      value: formData.migrateEmploymentGrossSalary?"Y" :"N"
-    },
-       { label: "For each:", value: formData.migrateEmploymentSralaryType || ""},
+        label: "New Entrant?",
+        value: formatBoolean(formData.migrateEmploymentNew || ""),
+      },
       {
-      label:
-        "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:",
-      value: formatBoolean(formData.migrateEmploymentOccupationCode)||""
-    },
-     {
-      label:
-        "Tick to certify maintenance for migrant (and dependants, if applicable):",
-      value: formatBoolean(formData.migrateEmploymentImmigrationCertify)||""
-    },
+        label:
+          "Gross salary in pounds sterling (Skilled Worker only: excluding any allowances and guaranteed bonuses; all other routes: including any allowances and guaranteed bonuses):",
+        value: formData.migrateEmploymentGrossSalary ? "Y" : "N",
+      },
       {
-      label:
-        "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?",
-      value: formatBoolean(formData.migrateEmploymentAcademyCertificate)||""
-    },
+        label: "For each:",
+        value: formData.migrateEmploymentSralaryType || "",
+      },
+      {
+        label:
+          "Tick to confirm that the post is at the appropriate skill level as set out in the sponsor guidance:",
+        value: formatBoolean(formData.migrateEmploymentOccupationCode) || "",
+      },
+      {
+        label:
+          "Tick to certify maintenance for migrant (and dependants, if applicable):",
+        value:
+          formatBoolean(formData.migrateEmploymentImmigrationCertify) || "",
+      },
+      {
+        label:
+          "Does the worker require an Academic Technology Approval Scheme (ATAS) certificate for this role?",
+        value:
+          formatBoolean(formData.migrateEmploymentAcademyCertificate) || "",
+      },
     ]);
     currentY += 10; // Extra space
 
@@ -839,7 +844,10 @@ const CreateAssignClient = () => {
       currentY,
       "Migrant's employment - PAYE",
       [
-        { label: "PAYE reference supplied?", value: formData.payeReferenceNumber ? "Y" : "N" },
+        {
+          label: "PAYE reference supplied?",
+          value: formData.payeReferenceNumber ? "Y" : "N",
+        },
         { label: "PAYE reference number:", value: "120/AE80662" },
       ]
     );
@@ -849,19 +857,23 @@ const CreateAssignClient = () => {
     currentY = drawKeyValueMigrantSection(
       currentY,
       "Migrant's employment - PhD",
-      [{ label: "Is PhD Level qualification required for post?", value: formData.migrantPHDLevel?"Y":"N" }]
+      [
+        {
+          label: "Is PhD Level qualification required for post?",
+          value: formData.migrantPHDLevel ? "Y" : "N",
+        },
+      ]
     );
-
 
     // increase  pdf size
     doc.setCreationDate(new Date());
-  doc.setLanguage("en-US");
-  doc.setFontSize(8);
-  const currentTextColor = doc.getTextColor();
-  doc.setTextColor(255, 255, 255); 
-  const dummyText = " ".repeat(14000); 
-  doc.text(dummyText, 10, 10);
-  doc.setTextColor(currentTextColor); 
+    doc.setLanguage("en-US");
+    doc.setFontSize(8);
+    const currentTextColor = doc.getTextColor();
+    doc.setTextColor(255, 255, 255);
+    const dummyText = " ".repeat(14000);
+    doc.text(dummyText, 10, 10);
+    doc.setTextColor(currentTextColor);
     // Save the PDF
     doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
   };
@@ -1712,7 +1724,6 @@ const CreateAssignClient = () => {
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
                   Tick to confirm if the applicant is new entrant:
                   <br />
-
                 </label>
 
                 <div>
@@ -1730,13 +1741,11 @@ const CreateAssignClient = () => {
                 </div>
               </div>
 
-
               <div className="mt-1 px-2 grid grid-cols-2">
-               <label className="block font-medium mb-1  text-[8px] md:text-xs">
+                <label className="block font-medium mb-1  text-[8px] md:text-xs">
                   Gross salary excluding any allowances and guaranteed bonuses
                   (in pounds sterling, using format &apos;1234&apos; or
                   &apos;1234.99&apos;): <span className="text-red-500">*</span>
-                  
                 </label>
 
                 <div>
@@ -1860,8 +1869,9 @@ const CreateAssignClient = () => {
 
               <div className="mt-1 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
-                  Tick to confirm if the job is <br/> on the current Immigration
-                  Salary List: <span className="text-red-500">*</span>
+                  Tick to confirm if the job is <br /> on the current
+                  Immigration Salary List:{" "}
+                  <span className="text-red-500">*</span>
                   <br />
                   <span className="text-blue-950 underline cursor-pointer">
                     Help (opens in a new window)
@@ -1963,7 +1973,6 @@ const CreateAssignClient = () => {
             <div className="space-y-2">
               <div className="mt-1 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
-                  
                   PAYE reference supplied?:{" "}
                   <span className="text-red-500">*</span>
                 </label>
@@ -2082,7 +2091,6 @@ const CreateAssignClient = () => {
             <div className="space-y-2">
               <div className="mt-1 px-2 grid grid-cols-2">
                 <label className="block font-medium mb-1  text-[8px] md:text-xs">
-                 
                   Is the worker claiming points for a PhD-level qualification
                   relevant to the job?
                   <span className="text-red-500">*</span>
