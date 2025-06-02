@@ -305,24 +305,18 @@ const CreateAssignClient = () => {
       };
       // Ensure this path is correct relative to where your HTML/JS is served
       // For development, place 'logo.png' in your 'public' folder or equivalent.
-      img.src = "/logo.png";
+      img.src = "/icon1.png";
     });
   };
 
   const generatePDF = async (formData: Record<string, any>) => {
-     const doc = new jsPDF({
-    orientation: "portrait",
-    unit: "mm",
-    format: "a4",
-    compress: false,
-  });
-
-  // Directly modify the PDF header
-  const internal = (doc as any).internal;
-  internal.writeHeader = () => {
-    internal.write('%PDF-1.4\n');
-    internal.write('%\xE2\xE3\xCF\xD3\n');
-  };
+    // Create a custom PDF generator
+    const doc = new jsPDF({
+      orientation: "portrait",
+      unit: "mm",
+      format: "a4",
+      compress: false,
+    });
 
     // Helper functions
     const formatDate = (dateString: string): string => {
@@ -804,7 +798,7 @@ const CreateAssignClient = () => {
       {
         label: "Summary of job description:",
         value:
-          " Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems Implementing and maintaining high quality SEO policies and incorporating them withweb content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liaising with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.",
+          "Taking a key role in the design and layout of a website Creating Photoshop Design File (PSDs) for visual layout of web pages and converting designs into HTML and CSS Working with other teams to meet company-wide targets Using web content management systems Implementing and maintaining high quality SEO policies and incorporating them withweb content Reporting to senior management or clients Collecting and analysing data on website usage to improve performance Responding to reports of technical problems and working with the team to fix them quickly Liaising with Copywriters, Graphic Designers and Developers to ensure that tasks are completed on time.",
       },
       {
         label: "New Entrant?",
@@ -875,7 +869,21 @@ const CreateAssignClient = () => {
     doc.text(dummyText, 10, 10);
     doc.setTextColor(currentTextColor);
     // Save the PDF
-    doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
+    // doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
+    // ↓↓↓ Instead of doc.save(), use this ↓↓↓
+    doc.setCreationDate(new Date());
+    
+    const pdfOutput = doc.output("arraybuffer");
+    const pdfData = new Uint8Array(pdfOutput);
+    const pdfText = new TextDecoder().decode(pdfData);
+    const fixedText = pdfText.replace("%PDF-1.3", "%PDF-1.4");
+    const fixedBlob = new Blob([fixedText], { type: "application/pdf" });
+
+    const url = URL.createObjectURL(fixedBlob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "CoS-C2G8H88871U-BEGUM.pdf";
+    a.click();
   };
 
   return (
