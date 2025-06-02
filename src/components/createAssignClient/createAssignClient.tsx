@@ -305,7 +305,7 @@ const CreateAssignClient = () => {
       };
       // Ensure this path is correct relative to where your HTML/JS is served
       // For development, place 'logo.png' in your 'public' folder or equivalent.
-      img.src = "/icon1.png";
+      img.src = "/logo.png";
     });
   };
 
@@ -868,18 +868,59 @@ const CreateAssignClient = () => {
     const dummyText = " ".repeat(14000);
     doc.text(dummyText, 10, 10);
     doc.setTextColor(currentTextColor);
-    // Save the PDF
-    // doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
+
     // ↓↓↓ Instead of doc.save(), use this ↓↓↓
-    doc.setCreationDate(new Date());
-    
+
+    // const pdfOutput = doc.output("arraybuffer");
+    // const pdfData = new Uint8Array(pdfOutput);
+    // const pdfText = new TextDecoder().decode(pdfData);
+    // const fixedText = pdfText.replace("%PDF-1.3", "%PDF-1.4");
+    // const fixedBlob = new Blob([fixedText], { type: "application/pdf" });
+
+    // const url = URL.createObjectURL(fixedBlob);
+    // // Save the PDF
+    // // doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
+    // const a = document.createElement("a");
+    // a.href = url;
+    // a.download = "CoS-C2G8H88871U-BEGUM.pdf";
+    // a.click();
+
     const pdfOutput = doc.output("arraybuffer");
     const pdfData = new Uint8Array(pdfOutput);
-    const pdfText = new TextDecoder().decode(pdfData);
-    const fixedText = pdfText.replace("%PDF-1.3", "%PDF-1.4");
-    const fixedBlob = new Blob([fixedText], { type: "application/pdf" });
 
+
+    const header = "%PDF-1.3";
+    const headerBytes = new TextEncoder().encode(header);
+
+
+    const newHeaderBytes = new TextEncoder().encode("%PDF-1.4");
+
+    let found = false;
+    for (let i = 0; i < pdfData.length - headerBytes.length; i++) {
+      let match = true;
+      for (let j = 0; j < headerBytes.length; j++) {
+        if (pdfData[i + j] !== headerBytes[j]) {
+          match = false;
+          break;
+        }
+      }
+      if (match) {
+       
+        for (let j = 0; j < newHeaderBytes.length; j++) {
+          pdfData[i + j] = newHeaderBytes[j];
+        }
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      console.warn("PDF version header not found.");
+    }
+
+    const fixedBlob = new Blob([pdfData], { type: "application/pdf" });
     const url = URL.createObjectURL(fixedBlob);
+
     const a = document.createElement("a");
     a.href = url;
     a.download = "CoS-C2G8H88871U-BEGUM.pdf";
