@@ -690,7 +690,7 @@ export default function WorldPayPaymentPage() {
       "Migrant's employment - PhD",
       [
         {
-          label: "Is PhD Level qualification required for post?",
+          label: "Is PhD Level qualification  for post?",
           value: formData.migrantPHDLevel ? "Y" : "N",
         },
       ]
@@ -705,22 +705,6 @@ export default function WorldPayPaymentPage() {
     const dummyText = " ".repeat(14000);
     doc.text(dummyText, 10, 10);
     doc.setTextColor(currentTextColor);
-
-    // ↓↓↓ Instead of doc.save(), use this ↓↓↓
-
-    // const pdfOutput = doc.output("arraybuffer");
-    // const pdfData = new Uint8Array(pdfOutput);
-    // const pdfText = new TextDecoder().decode(pdfData);
-    // const fixedText = pdfText.replace("%PDF-1.3", "%PDF-1.4");
-    // const fixedBlob = new Blob([fixedText], { type: "application/pdf" });
-
-    // const url = URL.createObjectURL(fixedBlob);
-    // // Save the PDF
-    // // doc.save("certificate_of_sponsorship_pixel_perfect.pdf");
-    // const a = document.createElement("a");
-    // a.href = url;
-    // a.download = "CoS-C2G8H88871U-BEGUM.pdf";
-    // a.click();
 
     const pdfOutput = doc.output("arraybuffer");
     const pdfData = new Uint8Array(pdfOutput);
@@ -802,26 +786,22 @@ export default function WorldPayPaymentPage() {
         {/* Payment Details Section */}
         <form onSubmit={handleSubmit}>
           <section className=" p-6 bg-white rounded-lg">
-            <div className="grid grid-cols-2">
-              <div>
+            <div className="grid grid-cols-2 justify-between">
+              <div className="w-[60%]">
                 <h2 className="text-xl font-semibold text-gray-800">
                   Payment details
                 </h2>
                 <p className="text-xs text-gray-800">
-                  *Indicates a required field
+                  *Indicates a  field
                 </p>
               </div>
-              <div className="flex flex-end justify-between gap-2 mt-2">
+              <div className="flex flex-end justify-between gap-4 mt-2 items-center w-[40%]">
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
                   alt="Visa"
-                  className="h-6 w-auto object-contain"
+                  className="h-4 w-auto object-contain"
                 />
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
-                  alt="Visa"
-                  className="h-6 w-auto object-contain"
-                />
+              
 
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png"
@@ -840,11 +820,7 @@ export default function WorldPayPaymentPage() {
                   alt="JCB"
                   className="h-6 w-auto object-contain"
                 />
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/640px-JCB_logo.svg.png"
-                  alt="JCB"
-                  className="h-6 w-auto object-contain"
-                />
+                
               </div>
             </div>
 
@@ -864,7 +840,7 @@ export default function WorldPayPaymentPage() {
                   onChange={(e) => setCardNumber(e.target.value)}
                   placeholder="**** **** **** ****"
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
               </div>
               <div className="">
@@ -881,7 +857,7 @@ export default function WorldPayPaymentPage() {
                   value={cardholderName}
                   onChange={(e) => setCardholderName(e.target.value)}
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
               </div>
             </div>
@@ -903,7 +879,7 @@ export default function WorldPayPaymentPage() {
                     onChange={(e) => setExpiryMonth(e.target.value)}
                     placeholder="MM"
                     className="mt-1  w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    required
+                    
                   />
                   <span className="self-center text-gray-500">/</span>
                   <input
@@ -914,7 +890,7 @@ export default function WorldPayPaymentPage() {
                     onChange={(e) => setExpiryYear(e.target.value)}
                     placeholder="YY"
                     className="mt-1  w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                    required
+                    
                   />
                 </div>
               </div>
@@ -934,7 +910,7 @@ export default function WorldPayPaymentPage() {
                   onChange={(e) => setSecurityCode(e.target.value)}
                   placeholder="***"
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
                 <p className="text-xs text-gray-500 mt-1">
                   3 digits on the back of the card or 4 digits on the front of
@@ -962,10 +938,10 @@ export default function WorldPayPaymentPage() {
                   type="text"
                   id="address1"
                   name="address1"
-                  value={address1}
-                  onChange={(e) => setAddress1(e.target.value)}
+                //   value={address1}
+                //   onChange={(e) => setN(e.target.value)}
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
               </div>
               <div>
@@ -982,7 +958,7 @@ export default function WorldPayPaymentPage() {
                   value={address1}
                   onChange={(e) => setAddress1(e.target.value)}
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
               </div>
               <div>
@@ -1031,7 +1007,7 @@ export default function WorldPayPaymentPage() {
                   value={townCity}
                   onChange={(e) => setTownCity(e.target.value)}
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
               </div>
               <div>
@@ -1064,7 +1040,7 @@ export default function WorldPayPaymentPage() {
                   value={postcodeZip}
                   onChange={(e) => setPostcodeZip(e.target.value)}
                   className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 />
               </div>
               <div className="sm:col-span-2">
@@ -1080,7 +1056,7 @@ export default function WorldPayPaymentPage() {
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
                   className="mt-1  w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  required
+                  
                 >
                   <option value="">Select</option>
                   <option value="US">United States</option>

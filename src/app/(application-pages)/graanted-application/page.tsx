@@ -76,29 +76,29 @@ const CoSApplications = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-200">
                 <tr className="">
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider"></th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider"></th>
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Granted date
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Request Number
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Use by date
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Submitted by
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Route
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Job type
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Number of CoS granted
                   </th>
-                  <th className="py-3 px-2 text-left text-xs font-medium  uppercase tracking-wider">
+                  <th className="py-1 px-2 text-left text-xs font-medium  uppercase tracking-wider">
                     Application status
                   </th>
                 </tr>

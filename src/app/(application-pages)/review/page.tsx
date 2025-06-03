@@ -118,11 +118,11 @@ const CoSSummaryDisplay: React.FC = () => {
   const handleAmend = () => {
     router.back()
   };
-  const handleDelete = () => {
-    if (window.confirm("Are you sure you want to delete this CoS?")) {
-      alert('Delete button clicked!');
-    }
-  };
+  // const handleDelete = () => {
+  //   if (window.confirm("Are you sure you want to delete this CoS?")) {
+  //     alert('Delete button clicked!');
+  //   }
+  // };
 
   if (loading) {
     return (
@@ -196,6 +196,12 @@ const CoSSummaryDisplay: React.FC = () => {
           Exit
         </button>
         <button
+          // onClick={handleExit}
+          className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white  text-[8px] md:text-xs font-semibold px-2"
+        >
+          Link
+        </button>
+        <button
           onClick={handleAssign}
           className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white  text-[8px] md:text-xs font-semibold px-2"
         >
@@ -208,7 +214,7 @@ const CoSSummaryDisplay: React.FC = () => {
           Amend
         </button>
         <button
-          onClick={handleDelete}
+          // onClick={handleDelete}
           className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white  text-[8px] md:text-xs font-semibold px-2"
         >
           Delete
