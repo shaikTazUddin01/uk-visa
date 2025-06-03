@@ -117,7 +117,7 @@ const CoSDetailsPage = () => {
           <div className="">
              <button
              
-              onClick={() => router.push('/create-cos')}
+              onClick={() => router.push('/create-application')}
               className="px-2 p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white text-[15apx] font-semibold"
             >
              Next

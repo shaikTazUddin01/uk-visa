@@ -44,10 +44,11 @@ const CoSApplications = () => {
 
       <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
         <div className="bg-white p-5 rounded-md shadow-lg max-w-6xl w-full">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Defined CoS applications
+          <h2 className="text-xl font-bold mb-2 text-gray-800">
+            Granted applications - create and assign defined CoS
           </h2>
-          <div className="mb-6 text-[13px] text-gray-700 leading-relaxed space-y-2">
+          <div className="mb-6 text-[13px] text-gray-700 leading-relaxed space-y-1.5 font-medium">
+            <p>The table below shows:</p>
             <p>
               • All applications made that have been granted and are still valid
             </p>
