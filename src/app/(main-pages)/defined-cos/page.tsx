@@ -7,6 +7,7 @@ const DefinedCOSPage = () => {
       title: "Apply for defined CoS",
       description: ["Apply for the number of CoS you require"],
       help_link: "Help (opens in a new window)",
+      link:"#"
     },
     {
       title: "Apply for defined CoS based on a previous application",
@@ -14,6 +15,7 @@ const DefinedCOSPage = () => {
         "Use and edit the data from a previous application to create a new application",
       ],
       help_link: "Help (opens in a new window)",
+      link:"#"
     },
     {
       title: "View applications that are awaiting a decision",
@@ -22,6 +24,7 @@ const DefinedCOSPage = () => {
         "Withdraw any applications that you no longer wish to be considered",
       ],
       help_link: "Help (opens in a new window)",
+      link:"#"
     },
     {
       title: "Granted applications - create and assign defined CoS",
@@ -30,6 +33,7 @@ const DefinedCOSPage = () => {
         "View returned and reclaimed defined CoS",
       ],
       help_link: "Help (opens in a new window)",
+      link:"/graanted-application"
     },
     {
       title: "View previously refused, withdrawn or rejected applications",
@@ -38,6 +42,7 @@ const DefinedCOSPage = () => {
         "View applications that were not granted",
       ],
       help_link: "Help (opens in a new window)",
+      link:"#"
     },
   ];
 
@@ -57,7 +62,7 @@ const DefinedCOSPage = () => {
       {informations?.map((info, index) => (
         <section key={index} className="mb-1 text-[6px] md:text-xs">
           <Link
-            href={"#"}
+            href={info?.link}
             className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2"
           >
             {info?.title}

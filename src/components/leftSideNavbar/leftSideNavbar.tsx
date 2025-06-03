@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { ImArrowDownRight } from "react-icons/im";
-import { MdChevronRight } from "react-icons/md";
+// import { FaArrowDown } from "react-icons/im";
+import { FaArrowDown } from "react-icons/fa";
+
 interface MenuItem {
   href: string;
   label: string;
@@ -118,12 +119,12 @@ const SideNavbar = () => {
               <li key={index}>
                 <div
                   onClick={() => handleMenuClick(index)}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px]  md:text-[8px] lg:text-xs cursor-pointer hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px]  md:text-[8px] lg:text-xs cursor-pointer hover:underline hover:text-violet-800 font-semibold"
                 >
-                  <p>
-                    <ImArrowDownRight className="text-blue-400 transition text-[5px] md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  <p className="rotate-[-50deg]">
+                    <FaArrowDown className="text-blue-400 transition text-[5px] md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
                   </p>
-                  <p>{item.label}</p>
+                  <p className="text-sm">{item.label}</p>
                 </div>
 
                 {activeMenu === index && item.subMenu && (
@@ -133,9 +134,9 @@ const SideNavbar = () => {
                         key={index}
                         className="group flex items-center gap-1 p-0 m-0 border border-[#F4F4F4]"
                       >
-                        <p>
-                          <MdChevronRight className=" text-[blue-400] transition text-xs group-hover:text-violet-600" />
-                        </p>
+                        <p className="rotate-[-50deg]">
+                    <FaArrowDown className="text-blue-400 transition text-[5px] md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
+                  </p>
                         <Link
                           href={subItem.href}
                           className="text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600 "
@@ -153,23 +154,23 @@ const SideNavbar = () => {
               <>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
                   Change Password
                 </Link>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
                   Contact
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
                   Logout
                 </button>
               </>
@@ -177,16 +178,16 @@ const SideNavbar = () => {
               <>
                 <Link
                   href={"/login"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
                   Login
                 </Link>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
                 >
-                  <ImArrowDownRight className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600" />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
                   Contact
                 </Link>
               </>
