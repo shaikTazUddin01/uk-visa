@@ -1,239 +1,241 @@
 import Link from "next/link";
 import React from "react";
+import { FaSquare } from "react-icons/fa";
+
+const List = ({ items }: { items: string[] }) => (
+  <ul className="text-[6px] md:text-[13px] mt-2 text-gray-800">
+    {items.map((item, idx) => (
+      <li key={idx} className="flex items-start gap-3 space-y-[2px]">
+        <span className="text-[5px] mt-2">
+          <FaSquare />
+        </span>
+        <span className="w-[75%] tracking-wide">{item}</span>
+      </li>
+    ))}
+  </ul>
+);
 
 const LicencePage = () => {
   return (
-    <div className="max-w-2xl mx-auto ">
-      <h1 className="text-[6px] md:text-lg text-blue-950 font-bold my-3">
+    <div className="max-w-2xl mx-auto">
+      <h1 className="text-[6px] md:text-lg text-blue-900 font-medium my-3">
         Licence summary, applications and services
       </h1>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Manage Level 1 and 2 users
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>Add and deactivate SMS users</li>
-          <li>Edit SMS user profiles</li>
-        </ul>
+        <List items={["Add and deactivate SMS users", "Edit SMS user profiles"]} />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Request changes to licence details
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>
-            Change your circumstances, including organisation details,
-            accreditation or registration status
-          </li>
-          <li>Amend organisation structure details</li>
-          <li>Amend key personnel details</li>
-          <li>View recent and outstanding change requests</li>
-        </ul>
+        <List
+          items={[
+            "Change your circumstances, including organisation details, accreditation or registration status",
+            "Amend organisation structure details",
+            "Amend key personnel details",
+            "View recent and outstanding change requests",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Licence summary
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>View organisation details</li>
-          <li>View your sponsor licence number (SLN)</li>
-          <li>View licence start, expiry and renewal dates</li>
-          <li>
-            View details of Key Contact, Authorising Officer and Representative
-            (if applicable)
-          </li>
-          <li>View details of licensed routes</li>
-          <li>
-            View Student Sponsor status start/end dates and Basic Compliance
-            Assessment application / renewal dates (if applicable)
-          </li>
-          <li>
-            View Premium customer service start, end and renewal dates (if
-            applicable)
-          </li>
-          <li>View licence ratings</li>
-          <li>View CoS and CAS allocations (limit, used and remaining)</li>
-        </ul>
+        <List
+          items={[
+            "View organisation details",
+            "View your sponsor licence number (SLN)",
+            "View licence start, expiry and renewal dates",
+            "View details of Key Contact, Authorising Officer and Representative (if applicable)",
+            "View details of licensed routes",
+            "View Student Sponsor status start/end dates and Basic Compliance Assessment application / renewal dates (if applicable)",
+            "View Premium customer service start, end and renewal dates (if applicable)",
+            "View licence ratings",
+            "View CoS and CAS allocations (limit, used and remaining)",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           PAYE References
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>View existing references, who added them and when</li>
-          <li>Add a new PAYE Reference</li>
-          <li>Delete an existing PAYE Reference</li>
-        </ul>
+        <List
+          items={[
+            "View existing references, who added them and when",
+            "Add a new PAYE Reference",
+            "Delete an existing PAYE Reference",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Request CoS/CAS allocation increase
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>Request an increase to your current allocation of CoS or CAS</li>
-          <li>
-            Withdraw outstanding requests for an increase to your current
-            allocation of CoS or CAS
-          </li>
-        </ul>
+        <List
+          items={[
+            "Request an increase to your current allocation of CoS or CAS",
+            "Withdraw outstanding requests for an increase to your current allocation of CoS or CAS",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Request renewal of annual CoS/CAS allocations
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>
-            Request the renewal of next year&apos;s annual allocation(s) of CoS
-            or CAS
-          </li>
-          <li>
-            Withdraw outstanding requests for an increase to your current
-            allocation of CoS or CASView outstanding requests for the renewal of
-            next year&apos;s annual allocation(s) of CoS or CAS
-          </li>
-          <li>
-            View automatically renewed allocations of next year&apos;s annual
-            allocation(s) of CoS or CAS (if applicable)
-          </li>
-        </ul>
+        <List
+          items={[
+            "Request the renewal of next year's annual allocation(s) of CoS or CAS",
+            "Withdraw outstanding requests for an increase to your current allocation of CoS or CASView outstanding requests for the renewal of next year's annual allocation(s) of CoS or CAS",
+            "View automatically renewed allocations of next year's annual allocation(s) of CoS or CAS (if applicable)",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Action plan details
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>
-            Make a payment or decline to make a payment for an action plan
-          </li>
-          <li>View completed action plan payments</li>
-        </ul>
+        <List
+          items={[
+            "Make a payment or decline to make a payment for an action plan",
+            "View completed action plan payments",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Apply for or renew Worker Sponsor Premium customer service
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>Apply for premium customer service</li>
-          <li>Apply to renew premium customer service</li>
-        </ul>
+        <List
+          items={[
+            "Apply for premium customer service",
+            "Apply to renew premium customer service",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
-      <section className="mb-1 text-[6px] md:text-xs">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+      <section className="mb-1 text-[6px] md:text-[13px]">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Apply for Basic Compliance Assessment
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>Apply for a Basic Compliance Assessment</li>
-        </ul>
+        <List items={["Apply for a Basic Compliance Assessment"]} />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
       <section className="mb-1">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Applications and renewals tracking
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>View the status of the following application types:</li>
-          <li>Licence renewal</li>
-          <li>Premium customer service</li>
-          <li>Basic Compliance Assessment</li>
-        </ul>
+        <List
+          items={[
+            "View the status of the following application types:",
+            "Licence renewal",
+            "Premium customer service",
+            "Basic Compliance Assessment",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
       <section className="mb-1">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           SMS message board
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>View active messages that have not reached their expiry date</li>
-          <li>View archived messages that have expired</li>
-        </ul>
+        <List
+          items={[
+            "View active messages that have not reached their expiry date",
+            "View archived messages that have expired",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>
       </section>
 
       <section className="mb-3">
-        <h2 className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+        <h2 className="text-[6px] md:text-[13px] font-medium text-blue-900 underline cursor-pointer mb-2">
           Premium service contact details
         </h2>
-        <ul className="list-[square] list-inside mb-4 text-[6px] md:text-xs">
-          <li>View details of your Licence manager (if applicable)</li>
-          <li>View details of your Senior account manager (if applicable)</li>
-        </ul>
+        <List
+          items={[
+            "View details of your Licence manager (if applicable)",
+            "View details of your Senior account manager (if applicable)",
+          ]}
+        />
         <Link
           href="#"
-          className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+          className="text-blue-900 font-semibold text-[6px] md:text-[13px] underline mt-6"
         >
           Help (opens in a new window)
         </Link>

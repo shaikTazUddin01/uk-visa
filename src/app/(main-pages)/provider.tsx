@@ -1,6 +1,5 @@
 'use client'
 import React from 'react';
-import { usePathname } from 'next/navigation';
 import Navbar from '@/components/navbar/navbar';
 import SideNavbar from '@/components/leftSideNavbar/leftSideNavbar';
 import Image from 'next/image';
@@ -11,8 +10,7 @@ const Provider = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-     const pathname = usePathname();
-   console.log(pathname);
+  
   return (
     <html lang="en">
       <body

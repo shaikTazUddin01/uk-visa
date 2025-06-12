@@ -135,12 +135,12 @@ const router=useRouter()
 
   if (!formData) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center p-24 bg-gray-50">
+      <div className="flex min-h-screen flex-col items-center justify-center p-2 bg-gray-50">
         <div className="container mx-auto p-6 bg-white rounded-lg shadow-xl max-w-2xl mt-10 text-center border border-gray-200">
           <h1 className="text-3xl font-bold text-blue-700 mb-6">
             Assign Page Data Display
           </h1>
-          <p className="text-gray-600 text-[16px] mb-4"></p>
+          <p className="text-gray-600 text-[8px] lg:text-[16px] mb-1 md:mb-4"></p>
           <p className="text-sm text-gray-500">
             Please ensure your application is saving data using .
           </p>
@@ -166,12 +166,12 @@ router.push("/online-payment")
   return (
     <div className="container mx-auto">
       {/* Route Section - As per image 3 */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Route
         </h2>
         <div className="bg-gray-100 p-1 border-gray-300  text-gray-800">
-          <p className="font-medium text-[13px]">
+          <p className="font-medium text-[8px] lg:text-[13px]">
             Skilled Worker (New hires- defined)
           </p>{" "}
           {/* Using 'category' for Route */}
@@ -179,11 +179,11 @@ router.push("/online-payment")
       </div>
 
       {/* Personal Information Section - As per image 4 */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Personal Information
         </h2>
-        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
+        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[8px] lg:text-[13px]">
           <DataRow label="Family name" value={formData.familyName} />
           <DataRow label="Given name(s)" value={formData.givenName} />
           <DataRow label="Other names" value={formData.otherNames} />
@@ -200,11 +200,11 @@ router.push("/online-payment")
       </div>
 
       {/* Passport or travel document Section - As per image 4 */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Passport or travel document
         </h2>
-        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
+        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[8px] lg:text-[13px]">
           <DataRow label="Passport number" value={formData.passportNumber} />
           <DataRow label="Issue date" value={formData.passportIssueDate} />
           <DataRow label="Expiry date" value={formData.passportExpiryDate} />
@@ -216,11 +216,11 @@ router.push("/online-payment")
       </div>
 
       {/* Current home address Section - As per image 5 (partially) */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Current home address
         </h2>
-        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
+        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[8px] lg:text-[13px]">
           <DataRow label="Address" value={formData.currentAddress} />
           <DataRow label="City or town" value={formData.currentCity} />
           <DataRow
@@ -233,11 +233,11 @@ router.push("/online-payment")
       </div>
 
       {/* Identification & Employee number Section - As per image 5 (partially) */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Identification & Employee number
         </h2>
-        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
+        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[8px] lg:text-[13px]">
           <DataRow label="UK ID card number" value={formData.ukIdCardNumber} />
           <DataRow
             label="UK National Insurance number"
@@ -252,11 +252,11 @@ router.push("/online-payment")
       </div>
 
       {/* Migrant's work addresses in the UK Section - As per image 5 (bottom) */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Migrants work addresses in the UK
         </h2>
-        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
+        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[8px] lg:text-[13px]">
           <DataRow label="Start date" value={formData.workStartDate} />
           <DataRow label="End date" value={formData.workEndDate} />
           <DataRow
@@ -272,24 +272,24 @@ router.push("/online-payment")
       </div>
 
       {/* Other regular work addresses Section - As per image 6/7 (top) */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Other regular work addresses
         </h2>
         <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg text-gray-800">
           {/* This section appears to be just a header in the image, no specific data rows directly underneath in the visible part */}
-          <p className="text-gray-600 italic">
+          <p className="text-gray-600 text-[8px] lg:text-[13px]">
             No specific data fields shown in image for this section.
           </p>
         </div>
       </div>
 
       {/* Agent Section - As per image 6/7 */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Agent
         </h2>
-        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
+        <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[8px] lg:text-[13px]">
           <DataRow
             label="Migrant sourced through agent?"
             value={formData.agentUsed}
@@ -323,8 +323,8 @@ router.push("/online-payment")
       </div>
 
       {/* Migrant's employment Section - As per image 6/7 (bottom) */}
-      <div className="mb-4">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
+      <div className="mb-1 md:mb-4">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1">
           Migrants employment
         </h2>
         <div className="bg-gray-100 p-2 border border-t-0 border-gray-300 rounded-b-lg grid grid-cols-2 gap-y-2 text-[13px]">
@@ -343,10 +343,10 @@ router.push("/online-payment")
       </div>
 
       <div className="bg-gray-200 flex items-center px-4 py-1 gap-20">
-        <p className="text-[13px] font-medium">
+        <p className="text-[8px] lg:text-[13px] font-medium">
           I agree to the terms and conditions
         </p>
-        <input type="checkbox" onClick={() => setAgree(true)} />
+        <input type="checkbox" onClick={() => setAgree(!agree)} />
       </div>
       <div className="text-right my-3 space-x-3">
             <button
@@ -357,9 +357,9 @@ router.push("/online-payment")
             </button>
              <button
               onClick={handleNext}
-              disabled={agree}
-              className={`px-2 p-1 md:text-xs font-semibold  transition-all duration-200
-                ${agree
+              disabled={!agree}
+              className={`px-2 p-1 text-[6px] lg:text-xs font-semibold  transition-all duration-200
+                ${!agree
                   ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
                   : 'bg-gradient-to-t from-[#10254E] to-[#496192] text-white hover:from-[#0c1e3d] hover:to-[#3a5280]'
                 }`

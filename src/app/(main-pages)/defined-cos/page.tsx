@@ -47,12 +47,12 @@ const DefinedCOSPage = () => {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto text-[6px] md:text-xs">
-      <h1 className="text-[6px] md:text-lg text-blue-950 font-bold mt-3">
+    <div className="max-w-2xl mx-auto text-[6px] md:text-[13px]">
+      <h1 className="text-[6px] md:text-lg text-blue-950 font-bold mt-1">
         Apply for defined CoS
       </h1>
 
-      <p className="mt-1 mb-3">
+      <p className="mt-1 mb-3 text-[6px] md:text-[13px]">
         This section allows you to make applications for defined CoS. You can
         also review applications for which you are awaiting decisions, create
         CoS from granted applications and review previously refused, rejected
@@ -60,21 +60,21 @@ const DefinedCOSPage = () => {
       </p>
 
       {informations?.map((info, index) => (
-        <section key={index} className="mb-1 text-[6px] md:text-xs">
+        <section key={index} className="mb-1 text-[6px] md:text-[13px] ">
           <Link
             href={info?.link}
-            className="text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2"
+            className="text-[6px] md:text-[13px] font-bold text-blue-950 underline cursor-pointer mb-2"
           >
             {info?.title}
           </Link>
-          <ul className="list-[square] list-inside text-[6px] md:text-xs">
+          <ul className="list-[square] list-inside text-[6px] md:text-[13px]">
             {info?.description?.map((item, index) => (
               <li key={index} className="my-2">{item}</li>
             ))}
           </ul>
           <Link
             href="#"
-            className="text-blue-950 font-semibold text-[6px] md:text-xs underline"
+            className="text-blue-950 font-semibold text-[6px] md:text-[13px] underline"
           >
             {info.help_link}
           </Link>

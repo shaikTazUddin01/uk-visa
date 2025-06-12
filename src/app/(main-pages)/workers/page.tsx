@@ -52,7 +52,7 @@ const worksData = [
 
 const WorkerPage = () => {
   return (
-    <div className="max-w-2xl mx-auto  text-[6px] md:text-xs">
+    <div className="max-w-2xl mx-auto  text-[6px] md:text-[13px]">
       <h1 className=" text-[6px] md:text-lg text-blue-950 font-bold mt-3">Workers</h1>
 
       <p className="mt-1 mb-3">
@@ -63,18 +63,18 @@ const WorkerPage = () => {
       </p>
 
       {worksData?.map((work, index) => (
-        <section key={index} className="mb-1  text-[6px] md:text-xs">
-          <Link href={work?.link} className="tex text-[6px] md:text-xs font-bold text-blue-950 underline cursor-pointer mb-2">
+        <section key={index} className="mb-1  text-[6px] md:text-[13px]">
+          <Link href={work?.link} className="tex text-[6px] md:text-[13px] font-bold text-blue-950 underline cursor-pointer mb-2">
             {work?.title}
           </Link>
-          <ul className="list-[square] list-inside mb-4  text-[6px] md:text-xs">
+          <ul className="list-[square] list-inside mb-4  text-[6px] md:text-[13px]">
             {work?.items?.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
           </ul>
           <Link
             href="#"
-            className="text-blue-950 font-semibold  text-[6px] md:text-xs underline mt-6"
+            className="text-blue-950 font-semibold  text-[6px] md:text-[13px] underline mt-6"
           >
             Help (opens in a new window)
           </Link>

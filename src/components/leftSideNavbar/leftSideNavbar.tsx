@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -119,27 +120,36 @@ const SideNavbar = () => {
               <li key={index}>
                 <div
                   onClick={() => handleMenuClick(index)}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px]  md:text-[8px] lg:text-xs cursor-pointer hover:underline hover:text-violet-800 font-semibold"
+                  className="group flex items-start gap-1 md:gap-1.5 pt-1 md:p-1 md:pt-0 text-[6px]  md:text-[8px] lg:text-xs cursor-pointer hover:underline hover:text-violet-800 font-semibold"
                 >
                   <p className="rotate-[-50deg]">
-                    <FaArrowDown className="text-blue-400 transition text-[5px] md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
+                    <FaArrowDown className="text-blue-400 transition text-[6px] md:text-[8px] lg:text-xs group-hover:text-violet-800 font-extrabold mt-[2px] md:mt-1" />
                   </p>
-                  <p className="text-sm">{item.label}</p>
+                  <p className="transition text-[6px] lg:text-[13px] text-[#4b4a5c] font-medium w-[70%]">
+                    {item.label}
+                  </p>
                 </div>
 
                 {activeMenu === index && item.subMenu && (
-                  <ul className="lg:pl-4 bg-slate-100">
+                  <ul className="pl-2 lg:pl-6 pg:pt-1 bg-slate-100 ">
                     {item.subMenu.map((subItem, index) => (
                       <li
                         key={index}
-                        className="group flex items-center gap-1 p-0 m-0 border border-[#F4F4F4]"
+                        className="group flex items-start gap-2 p-0 m-0 border border-[#F4F4F4]"
                       >
-                        <p className="rotate-[-50deg]">
-                    <FaArrowDown className="text-blue-400 transition text-[5px] md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
-                  </p>
+                        <div className="w-[3%] md:w-[5%]">
+                          <Image
+                            src={"/arrow.gif"}
+                            height={20}
+                            width={20}
+                            alt="arrow"
+                            className="h-[3px] w-[3px] mt-[3px] md:h-1.5 md:w-1.5  md:mt-2"
+                          />
+                        </div>
+
                         <Link
                           href={subItem.href}
-                          className="text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-600 "
+                          className="text-[6px] hover:underline hover:text-violet-600 transition md:text-[8px] lg:text-[12px] text-[#4b4a5c] w-[72%] font-medium"
                         >
                           {subItem.label}
                         </Link>
@@ -154,21 +164,21 @@ const SideNavbar = () => {
               <>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[6px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800   lg:text-[13px] text-[#4b4a5c] font-medium"
                 >
-                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
+                  <FaArrowDown className="text-blue-400 transition text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
                   Change Password
                 </Link>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[6px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800  lg:text-[13px] text-[#4b4a5c] font-medium"
                 >
                   <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
                   Contact
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0 text-[6px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 lg:text-[13px] text-[#4b4a5c] font-medium"
                 >
                   <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-600 rotate-[-50deg]" />
                   Logout
@@ -178,16 +188,16 @@ const SideNavbar = () => {
               <>
                 <Link
                   href={"/login"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[6px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800  lg:text-[13px] text-[#4b4a5c] font-medium"
                 >
-                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-800 rotate-[-50deg]" />
                   Login
                 </Link>
                 <Link
                   href={"#"}
-                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[5px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 font-semibold"
+                  className="group flex items-center gap-1 pt-1 md:p-1 md:pt-0  text-[6px] md:text-[8px] lg:text-xs hover:underline hover:text-violet-800 lg:text-[13px] text-[#4b4a5c] font-medium"
                 >
-                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-800 " />
+                  <FaArrowDown className="text-blue-400 transition md:text-[8px] lg:text-xs group-hover:text-violet-800 rotate-[-50deg] " />
                   Contact
                 </Link>
               </>

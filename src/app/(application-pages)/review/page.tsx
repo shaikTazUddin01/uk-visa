@@ -160,20 +160,20 @@ const CoSSummaryDisplay: React.FC = () => {
     <div className="container mx-auto">
       
       <div className="mb-3">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1 ">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1 ">
           Route
         </h2>
         <div className="bg-gray-100 p-1 border border-t-0   text-gray-800">
-         <p className='text-[13px]'>Skilled Worker(New hires - defined)</p>
+         <p className='text-[8px] lg:text-[13px]'>Skilled Worker(New hires - defined)</p>
         </div>
       </div>
 
      
       <div className="mb-3">
-        <h2 className="text-[16px] font-semibold text-gray-700 bg-gray-200 p-1 ">
+        <h2 className="text-[8px] lg:text-[16px] font-semibold text-gray-700 bg-gray-200 p-1 ">
           CoS summary
         </h2>
-        <div className="bg-gray-100 p-4  grid grid-cols-2 gap-y-2 text-sm text-black">
+        <div className="bg-gray-100 p-4  grid grid-cols-2 gap-y-2 text-[8px] lg:text-sm text-black">
          
           <DataRow label="Passport number" value={formData.passportNumber} />
           <DataRow label="Family name" value={formData.familyName} />
@@ -191,7 +191,7 @@ const CoSSummaryDisplay: React.FC = () => {
       <div className="flex justify-end space-x-2 mt-5">
         <button
           onClick={handleExit}
-          className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white  text-[8px] md:text-xs font-semibold px-2"
+          className="p-1 bg-gradient-to-t from-[#10254E] to-[#496192] text-white   text-[8px] lg:text-xs font-semibold px-2"
         >
           Exit
         </button>

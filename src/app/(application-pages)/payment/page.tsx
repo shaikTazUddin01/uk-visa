@@ -747,36 +747,36 @@ export default function WorldPayPaymentPage() {
 
   return (
     <div className="min-h-screen flex flex-col p-2">
-      <h1 className="text-4xl text-red-700 font-semibold mb-3">worldpay</h1>
+      <h1 className="text-[10px] lg:text-4xl text-red-700 font-semibold mb-3">worldpay</h1>
       <div className="bg-white rounded-lg shadow-xl max-w-3xl w-full border-[12px] border-gray-300">
         {/* Header Section */}
         {/* Order Summary Section */}
         <section className="mb-8  bg-gray-50  border-gray-200 border-2">
-          <h2 className="text-xl font-semibold text-gray-800 px-6 pt-6 pb-2">
+          <h2 className="text-[8px] lg:text-xl font-semibold text-gray-800 px-6 pt-6 pb-2">
             Order summary
           </h2>
           <div className="flex flex-col border-b-[12px] border-gray-300 px-6 pb-6">
             <div className="flex justify-between items-center py-1">
-              <span className="text-gray-900 text-lg font-semibold w-[40%]">
+              <span className="text-gray-900 text-[8px] lg:text-lg font-semibold w-[40%]">
                 Reference:
               </span>
-              <span className="text-gray-700 font-semibold text-[17px] w-[60%]">
+              <span className="text-gray-700 font-semibold text-[8px] lg:text-[17px] w-[60%]">
                 C2E926401087N
               </span>
             </div>
             <div className="flex justify-between items-center py-1">
-              <span className="text-gray-900 text-lg font-semibold w-[40%]">
+              <span className="text-gray-900 text-[8px] lg:text-lg font-semibold w-[40%]">
                 Description:
               </span>
-              <span className="text-gray-700 font-semibold text-[17px] w-[60%]">
+              <span className="text-gray-700 font-semibold text-[8px] lg:text-[17px] w-[60%]">
                 Certificate of Sponsorship
               </span>
             </div>
             <div className="flex justify-between items-center py-1 md:col-span-2">
-              <span className="text-gray-900 text-lg font-semibold w-[40%]">
+              <span className="text-gray-900 text-[8px] lg:text-lg font-semibold w-[40%]">
                 Amount (GBP):
               </span>
-              <span className="text-gray-700 font-semibold text-[17px] w-[60%]">
+              <span className="text-gray-700 font-semibold text-[8px] lg:text-[17px] w-[60%]">
                 £1,253.00
               </span>
             </div>
@@ -786,12 +786,12 @@ export default function WorldPayPaymentPage() {
         {/* Payment Details Section */}
         <form onSubmit={handleSubmit}>
           <section className=" p-6 bg-white rounded-lg">
-            <div className="grid grid-cols-2 justify-between">
+            <div className="grid grid-cols-1 lg:grid-cols-2 justify-between">
               <div className="w-[60%]">
-                <h2 className="text-xl font-semibold text-gray-800">
+                <h2 className="text-[10px] lg:text-xl font-semibold text-gray-800">
                   Payment details
                 </h2>
-                <p className="text-xs text-gray-800">
+                <p className="text-[8px] lg:text-xs text-gray-800">
                   *Indicates a  field
                 </p>
               </div>
@@ -799,36 +799,36 @@ export default function WorldPayPaymentPage() {
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png"
                   alt="Visa"
-                  className="h-4 w-auto object-contain"
+                  className="h-2 lg:h-4 w-auto object-contain"
                 />
               
 
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/200px-Mastercard-logo.svg.png"
                   alt="Mastercard"
-                  className="h-6 w-auto object-contain"
+                  className="h-3 lg:h-6 w-auto object-contain"
                 />
 
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/American_Express_logo_%282018%29.svg/200px-American_Express_logo_%282018%29.svg.png"
                   alt="American Express"
-                  className="h-6 w-auto object-contain"
+                  className="h-3 lg:h-6 w-auto object-contain"
                 />
 
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/640px-JCB_logo.svg.png"
                   alt="JCB"
-                  className="h-6 w-auto object-contain"
+                  className="h-3 lg:h-6 w-auto object-contain"
                 />
                 
               </div>
             </div>
 
-            <div className="mb-6 mt-4 grid grid-cols-2 gap-5">
+            <div className="mb-6 mt-4 grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
                 <label
                   htmlFor="cardNumber"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Card number <span className="text-red-500">*</span>
                 </label>
@@ -839,14 +839,14 @@ export default function WorldPayPaymentPage() {
                   value={cardNumber}
                   onChange={(e) => setCardNumber(e.target.value)}
                   placeholder="**** **** **** ****"
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
               </div>
               <div className="">
                 <label
                   htmlFor="cardholderName"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Cardholders name <span className="text-red-500">*</span>
                 </label>
@@ -856,17 +856,17 @@ export default function WorldPayPaymentPage() {
                   name="cardholderName"
                   value={cardholderName}
                   onChange={(e) => setCardholderName(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div>
                 <label
                   htmlFor="expiryMonth"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Expiry date <span className="text-red-500">*</span>
                 </label>
@@ -878,7 +878,7 @@ export default function WorldPayPaymentPage() {
                     value={expiryMonth}
                     onChange={(e) => setExpiryMonth(e.target.value)}
                     placeholder="MM"
-                    className="mt-1  w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1  w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                     
                   />
                   <span className="self-center text-gray-500">/</span>
@@ -889,7 +889,7 @@ export default function WorldPayPaymentPage() {
                     value={expiryYear}
                     onChange={(e) => setExpiryYear(e.target.value)}
                     placeholder="YY"
-                    className="mt-1  w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="mt-1  w-1/2 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                     
                   />
                 </div>
@@ -898,7 +898,7 @@ export default function WorldPayPaymentPage() {
               <div>
                 <label
                   htmlFor="securityCode"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Security code <span className="text-red-500">*</span>
                 </label>
@@ -909,10 +909,10 @@ export default function WorldPayPaymentPage() {
                   value={securityCode}
                   onChange={(e) => setSecurityCode(e.target.value)}
                   placeholder="***"
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-[8px] lg:text-xs text-gray-500 mt-1">
                   3 digits on the back of the card or 4 digits on the front of
                   card
                 </p>
@@ -922,7 +922,7 @@ export default function WorldPayPaymentPage() {
 
           {/* Billing Address Section */}
           <section className="mb-8 p-6 bg-white -mt-10">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+            <h2 className="text-[8px] lg:text-xl font-semibold text-gray-800 mb-4">
               Billing Address
             </h2>
 
@@ -930,7 +930,7 @@ export default function WorldPayPaymentPage() {
               <div>
                 <label
                   htmlFor="address1"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   First name <span className="text-red-500">*</span>
                 </label>
@@ -940,14 +940,14 @@ export default function WorldPayPaymentPage() {
                   name="address1"
                 //   value={address1}
                 //   onChange={(e) => setN(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
               </div>
               <div>
                 <label
                   htmlFor="address1"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Address 1 <span className="text-red-500">*</span>
                 </label>
@@ -957,14 +957,14 @@ export default function WorldPayPaymentPage() {
                   name="address1"
                   value={address1}
                   onChange={(e) => setAddress1(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
               </div>
               <div>
                 <label
                   htmlFor="address2"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Address 2
                 </label>
@@ -974,13 +974,13 @@ export default function WorldPayPaymentPage() {
                   name="address2"
                   value={address2}
                   onChange={(e) => setAddress2(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                 />
               </div>
               <div>
                 <label
                   htmlFor="address3"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Address 3
                 </label>
@@ -990,13 +990,13 @@ export default function WorldPayPaymentPage() {
                   name="address3"
                   value={address3}
                   onChange={(e) => setAddress3(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                 />
               </div>
               <div>
                 <label
                   htmlFor="townCity"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Town/City <span className="text-red-500">*</span>
                 </label>
@@ -1006,14 +1006,14 @@ export default function WorldPayPaymentPage() {
                   name="townCity"
                   value={townCity}
                   onChange={(e) => setTownCity(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
               </div>
               <div>
                 <label
                   htmlFor="stateRegion"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   State/Region
                 </label>
@@ -1023,13 +1023,13 @@ export default function WorldPayPaymentPage() {
                   name="stateRegion"
                   value={stateRegion}
                   onChange={(e) => setStateRegion(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                 />
               </div>
               <div>
                 <label
                   htmlFor="postcodeZip"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Postcode/Zip code <span className="text-red-500">*</span>
                 </label>
@@ -1039,14 +1039,14 @@ export default function WorldPayPaymentPage() {
                   name="postcodeZip"
                   value={postcodeZip}
                   onChange={(e) => setPostcodeZip(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 />
               </div>
               <div className="sm:col-span-2">
                 <label
                   htmlFor="country"
-                  className=" text-sm font-medium text-gray-700 mb-1"
+                  className=" text-[8px] lg:text-sm font-medium text-gray-700 mb-1"
                 >
                   Country <span className="text-red-500">*</span>
                 </label>
@@ -1055,7 +1055,7 @@ export default function WorldPayPaymentPage() {
                   name="country"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="mt-1  w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1  w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-[8px] lg:text-sm"
                   
                 >
                   <option value="">Select</option>
@@ -1081,10 +1081,10 @@ export default function WorldPayPaymentPage() {
 
           {/* Contact Details Section */}
           <section className=" p-6 bg-white rounded-lg -mt-14">
-            <h2 className="text-xl font-semibold text-gray-800 ">
+            <h2 className="text-[8px] lg:text-xl font-semibold text-gray-800 ">
               Contact details
             </h2>
-            <p className="text-gray-700">info@minodoraconstructions.co.uk</p>
+            <p className="text-gray-700 text-[8px] lg:text-[13px]">info@minodoraconstructions.co.uk</p>
             <div className="flex justify-start mt-4">
               <button
                 type="submit"
